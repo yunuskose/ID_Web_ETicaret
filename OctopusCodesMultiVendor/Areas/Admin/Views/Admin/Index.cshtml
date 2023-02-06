@@ -1,0 +1,84 @@
+﻿@using IDETicaret.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+}
+<section class="content">
+    <div class="row" style="padding:5px;">
+        <div class="col-xs-3 label-danger" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.Product.Where((p) => p.Status).Count()</label>
+            <br /> Aktif Ürün Sayısı
+        </div>
+        <div class="col-xs-3 label-danger" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.Product.Where((p) => p.Status == false).Count()</label>
+            <br /> Pasif Ürün Sayısı
+        </div>
+        <div class="col-xs-3 label-danger" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.ProductViews.Count()</label>
+            <br /> Toplam Ürün Ziyareti
+        </div>
+        <div class="col-xs-3 label-danger" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.Orders.Where((o) => o.OrderStatus.Id != 10).Count()</label>
+            <br /> Toplam Alışveriş Sayısı
+        </div>
+    </div>
+    <br />
+    <div class="row" style="padding:5px;">
+        <div class="col-xs-3 label-success" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.Orders.Where((s) => s.Aktif == true && s.DateCreation == DateTime.Today).Count()</label>
+            <br /> Bugünkü Sipariş
+        </div>
+        <div class="col-xs-3 label-success" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.Orders.Where((s) => s.Aktif == true && s.DateCreation.Month == DateTime.Today.Month).Count()</label>
+            <br /> Aylık Sipariş
+        </div>
+        <div class="col-xs-3 label-success" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.Orders.Where((s) => s.Aktif == true && s.DateCreation.Year == DateTime.Today.Year).Count()</label>
+            <br /> Yıllık Sipariş
+        </div>
+        <div class="col-xs-3 label-success" style="text-align:center;">
+            <label style="font-size:30px;">@ocmde.Orders.Where((s) => s.Aktif == true).Count()</label>
+            <br /> Toplam Sipariş
+        </div>
+    </div>
+
+    <div class="row" style="padding:5px;">
+        <div class="col-xs-3">
+            <h4>Günlük Siparişler</h4>
+            <table class="table">
+                <tr>
+                    <th>Tarih</th>
+                    <th style="text-align:right;">Sipariş Sayısı</th>
+                </tr>
+                @{
+                    DateTime tarih = DateTime.Today;
+                    while (tarih >= DateTime.Today.AddDays(-30))
+                    {
+                        <tr>
+                            <td>@tarih.ToString("dd-MM-yyyy")</td>
+                            <td style="text-align:right;">@ocmde.Orders.Where((o) => o.Aktif == true && o.DateCreation == tarih).Count()</td>
+                        </tr>
+                        tarih = tarih.AddDays(-1);
+                    }
+                }
+            </table>
+        </div>
+        <div class="col-xs-6">
+            <h4>Bugün Ziyaret Edilenler(son 100) (@ocmde.ProductViews.Where((p) => p.CDate >= DateTime.Today).Count()) gösterim</h4>
+            <table class="table">
+                <tr>
+                    <td>Ürün Kodu</td>
+                    <td>Ürün Adı</td>
+                </tr>
+                @foreach (ProductView item in ocmde.ProductViews.Where((p)=> p.CDate >= DateTime.Today).OrderByDescending((o)=>o.CDate).Take(100))
+                {
+                    <tr>
+                        <td>@item.Product.Code</td>
+                        <td>@item.Product.Name</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "İletişim";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div id="content" class="col-sm-9">
+
+
+    <h4>İLETİŞİM BİLGİLERİ</h4>
+    <br />
+    <p><strong>@System.Configuration.ConfigurationManager.AppSettings["SiteIsmi"]</strong></p>
+    <table style="width:500px;">
+        <tr>
+            <td><strong>Adres</strong></td>
+            <td>@System.Configuration.ConfigurationManager.AppSettings["SiteAdres"]</td>
+        </tr>
+        <tr>
+            <td><strong>Telefon</strong></td>
+            <td>@System.Configuration.ConfigurationManager.AppSettings["SiteTelefon1"]</td>
+        </tr>
+        <tr>
+            <td><strong>Fax</strong></td>
+            <td>@System.Configuration.ConfigurationManager.AppSettings["SiteTelefon2"]</td>
+        </tr>
+        <tr>
+            <td><strong>Ücretsiz Fax</strong></td>
+            <td>@System.Configuration.ConfigurationManager.AppSettings["SiteTelefon3"]</td>
+        </tr>
+        <tr>
+            <td><strong>Mail</strong></td>
+            <td>@("info@"+System.Configuration.ConfigurationManager.AppSettings["SiteDomain"])</td>
+        </tr>
+    </table>
+
+
+
+
+</div>

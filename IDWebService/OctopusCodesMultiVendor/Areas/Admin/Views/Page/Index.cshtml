@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Sayfalar</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible">
+                        @TempData["error"]
+                    </div>
+                }
+                <div class="box-body">
+                    <div id="example1_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1_xxx"
+                                       class="table table-bordered table-striped dataTable">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="no-sort">Id</th>
+                                            <th class="no-sort">Anahtar</th>
+                                            <th class="no-sort">Değer</th>
+                                            <th class="no-sort">Durumu</th>
+                                            <th class="no-sort">İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var page in ViewBag.pages)
+                                        {
+                                            <tr>
+                                                <td>@page.Id</td>
+                                                <td>@page.Plug</td>
+                                                <td>@page.Title</td>
+                                                <td>
+                                                    <a href="@Url.Action("Status", "Page", new { id = page.Id })">@(page.Status ? "Görünür" : "Gizli")</a>
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Page", new { id = page.Id })">Düzenle</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

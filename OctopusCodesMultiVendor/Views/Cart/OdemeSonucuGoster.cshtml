@@ -1,0 +1,29 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+    <div>
+
+        @if (Convert.ToString(ViewBag.Sonuc).Contains("ÖDEME GERÇEKLEŞMEDİ") == true ||
+        Convert.ToString(ViewBag.Sonuc).Contains("İşlem Başarısız") == true ||
+        Convert.ToString(ViewBag.Sonuc).Contains("HATA!") == true)
+        {
+            <input type="text" name="odemesonucu" id="odemesonucu" value="hata" />
+            @ViewBag.Sonuc
+        }
+        else
+        {
+            <input type="text" name="odemesonucu" id="odemesonucu" value="tamam" />
+            @ViewBag.Sonuc
+        }
+
+    </div>
+</body>
+</html>

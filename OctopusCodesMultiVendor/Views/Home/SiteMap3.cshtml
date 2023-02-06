@@ -1,0 +1,19 @@
+﻿@using IDETicaret.Models;
+@model List<IDETicaret.Models.Category>
+@{
+    ViewBag.Title = "SiteMap";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<table>
+    <thead>
+    <th>Site Haritası</th>
+    </thead>
+    @foreach (IDETicaret.Models.Category category in Model)
+    {
+        <tr>
+            <td><a href="@Url.Action("SiteMap4","Home", new { Kategori1 = category.Id })">@category.Name</a></td>
+        </tr>
+    }
+</table>

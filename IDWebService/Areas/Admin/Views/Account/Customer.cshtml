@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+@using IDETicaret.Models;
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Customers</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible">
+                        @TempData["error"]
+                    </div>
+                }
+                <div class="box-body">
+                    <div id="example1_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form action="@Url.Action("KullaniciKaydet","Account",new { Area = "Admin" })" method="post">
+                                    <label>İsim</label>
+                                    <input type="text" name="txtIsim" id="txtIsim" value="" />
+                                    <label>IP Adresleri</label>
+                                    <input type="text" name="txtIP" id="txtIP" value="" />
+                                    <button type="submit">KAYDET</button>
+                                </form>
+                                <table id="example1" class="table table-bordered table-striped dataTable">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="no-sort">Id</th>
+                                            <th class="no-sort">İsim</th>
+                                            <th class="no-sort">IP Adresi</th>
+                                            <th class="no-sort">İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (KullanicilarXml kullanicilar in ((List<KullanicilarXml>)ViewBag.Kullanicilar))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @kullanicilar.ID
+                                                </td>
+                                                <td>@kullanicilar.Isim</td>
+                                                <td>@kullanicilar.IP</td>
+                                                <td><a href="@Url.Action("KullaniciSil","Account", new { Area = "Admin", id = kullanicilar.ID })">Sil</a></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

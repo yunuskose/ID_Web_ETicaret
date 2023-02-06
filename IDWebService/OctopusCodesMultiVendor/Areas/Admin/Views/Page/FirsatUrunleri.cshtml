@@ -1,0 +1,112 @@
+﻿@model List<IDETicaret.Models.HomeProducts>
+@{
+    ViewBag.Title = "FirsatUrunleri";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    int sira = 0;
+}
+
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <form action="@Url.Action("FirsatUrunleriEkle","Page","Admin")" method="post">
+                <label>Ürün Seçimi</label>
+                <input type="text" name="stok" id="stok" value="" style="width:150px;" class="ui-autocomplete-input" />
+                <input type="submit" name="name" value="Ekle" />
+            </form>
+            <hr />
+            <table class="table">
+                <tr>
+                    <td>Sıra</td>
+                    <td>Ürün Kodu</td>
+                    <td>Ürün Adı</td>
+                    <td>İşlem</td>
+                </tr>
+                @foreach (IDETicaret.Models.HomeProducts product in Model)
+                {
+                    sira++;
+                    <tr>
+                        <td>@sira</td>
+                        <td>@product.Product.Code</td>
+                        <td>@product.Product.Name</td>
+                        <td><a href="@Url.Action("FirsatUrunleriSil","Page",new { id=product.ID })">Sil</a></td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+
+        @section Scripts{
+
+            <style type="text/css">
+
+                /*the container must be positioned relative:*/
+                .autocomplete {
+                    position: relative;
+                    display: inline-block;
+                }
+
+
+                .autocomplete-items {
+                    position: absolute;
+                    border: 1px solid #d4d4d4;
+                    border-bottom: none;
+                    border-top: none;
+                    z-index: 99;
+                    /*position the autocomplete items to be the same width as the container:*/
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                }
+
+                    .autocomplete-items div {
+                        padding: 10px;
+                        cursor: pointer;
+                        background-color: #fff;
+                        border-bottom: 1px solid #d4d4d4;
+                    }
+
+                        /*when hovering an item:*/
+                        .autocomplete-items div:hover {
+                            background-color: #e9e9e9;
+                        }
+
+                /*when navigating through the items using the arrow keys:*/
+                .autocomplete-active {
+                    background-color: DodgerBlue !important;
+                    color: #ffffff;
+                }
+            </style>
+            <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="Stylesheet" type="text/css" />
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script type="text/javascript">
+                $("#stok").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: '/Admin/Page/UrunAra',
+                            data: "{ 'keyword': '" + request.term + "'}",
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { label: item.Deger, value: item.ID };
+                                }))
+                            },
+                            error: function (response) {
+                                alert("HATA1!" + response.responseText);
+                            },
+                            failure: function (response) {
+                                alert("HATA2!" + response.responseText);
+                            }
+                        });
+                    },
+                    minLength: 1
+                });
+            </script>
+
+
+        }
+
+        </section>

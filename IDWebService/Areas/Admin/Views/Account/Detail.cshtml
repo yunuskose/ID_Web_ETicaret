@@ -1,0 +1,83 @@
+﻿@using IDETicaret.Models;
+@model IDETicaret.Models.Account
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+}
+
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+
+                <h2>Kullanıcı Detayı</h2>
+
+                <table border="1" class="table">
+                    <tr>
+                        <td>Durum</td>
+                        <td>@Model.Status</td>
+                    </tr>
+                    <tr>
+                        <td>Kullanıcı Adı</td>
+                        <td>@Model.Username</td>
+                    </tr>
+                    <tr>
+                        <td>Parola</td>
+                        <td>@Model.Password</td>
+                    </tr>
+                    <tr>
+                        <td>Tam İsim</td>
+                        <td>@Model.FullName</td>
+                    </tr>
+                    <tr>
+                        <td>E-Mail</td>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <td>Mesaj</td>
+                        <td>@Model.Message</td>
+                    </tr>
+                    <tr>
+                        <td>Telefon</td>
+                        <td>@Model.Phone</td>
+                    </tr>
+                    <tr>
+                        <td>Token</td>
+                        <td>@Model.Token</td>
+                    </tr>
+                    <tr>
+                        <td>Toplam Sipariş Sayısı</td>
+                        <td>@Model.Orders.Count</td>
+                    </tr>
+                </table>
+                <hr />
+                <h3>Sipariş Listesi</h3>
+                <table border="1" class="table">
+                    <tr>
+                        <td>ID</td>
+                        <td>Order ID</td>
+                        <td>Tarih</td>
+                        <td>İsim</td>
+                        <td>Durum</td>
+                        <td>Ödeme</td>
+                    </tr>
+                    @foreach (Orders order in Model.Orders.OrderByDescending((x) => x.DateCreation))
+                    {
+                        <tr>
+                            <td><a href="@Url.Action("Detail","Orders",new { Area = "Admin", id = order.Id })">@order.Id</a></td>
+                            <td>@order.OrderID</td>
+                            <td>@order.DateCreation</td>
+                            <td>@order.Account.FullName</td>
+                            <td>@order.OrderStatus.Name</td>
+                            <td style="color:green;font-size:15px;">@(ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == order.OrderID) && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar (" + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == order.OrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().bankaAd + ") : " + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == order.OrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "")</td>
+                        </tr>
+                    }
+                </table>
+
+                </div>
+        </div>
+    </div>
+</section>

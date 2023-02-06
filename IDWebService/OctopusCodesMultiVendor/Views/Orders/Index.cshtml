@@ -1,0 +1,65 @@
+﻿
+@using IDETicaret.Models;
+@{
+    ViewBag.Title = "Siparişlerim";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Siparişlerim</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible">
+                        @TempData["error"]
+                    </div>
+                }
+                <div class="box-body">
+                    <div id="example1_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1"
+                                       class="table table-bordered table-striped dataTable">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="no-sort">Sipariş No</th>
+                                            <th>Sipariş Tarihi</th>
+                                            <th class="no-sort">Sipariş Durumu</th>
+                                            <th class="no-sort">Ödeme</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Orders order in ViewBag.orders as List<Orders>)
+                                        {
+                                            <tr>
+                                                <td>@order.Id</td>
+                                                <td>@order.DateCreation.ToString("MM/dd/yyyy")</td>
+                                                <td @(order.OrderStatus.Name == "Ödeme Bekliyor" ? "style=color:red;" : "")>@order.OrderStatus.Name</td>
+                                                <td style="color:green;">@(ocmde.PosOdemeleri.Where((x)=>x.orderid == order.OrderID && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar : "+ocmde.PosOdemeleri.Where((x) => x.orderid == order.OrderID && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString()+ " ₺" : "")</td>
+                                                <td>
+                                                    <a href="@Url.Action("Detail", "Orders", new { id = order.Id })">Detaya Git</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

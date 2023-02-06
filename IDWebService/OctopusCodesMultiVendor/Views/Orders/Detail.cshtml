@@ -1,0 +1,90 @@
+﻿
+@using IDETicaret.Models;
+@{
+    ViewBag.Title = "Sipariş Detayı";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+    string oid = Convert.ToString(ViewBag.OrderID);
+}
+
+@using IDETicaret.Models;
+
+<section class="invoice">
+    <!-- title row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="page-header">
+               Çiftteker  - Sipariş Detayı
+                <small class="pull-right">Tarih: @ViewBag.order.DateCreation.ToString("MM/dd/yyyy")</small>
+            </h2>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- info row -->
+    <div class="row invoice-info">
+        <div class="col-sm-4 invoice-col">
+            Müşteri Bilgileri
+            <address>
+                <strong>@ViewBag.order.Account.FullName</strong><br>
+                @ViewBag.order.Account.Address<br>
+                Telefon: @ViewBag.order.Account.Phone<br>
+                E-Mail: @ViewBag.order.Account.Email
+            </address>
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            <b></b><br>
+            <b>Sipariş ID:</b> @ViewBag.order.Id<br>
+            <b>Payment Due:</b> @ViewBag.order.DateCreation.ToString("MM/dd/yyyy")<br>
+            <b>Sipariş Durumu:</b> @ViewBag.order.OrderStatus.Name<br>
+            <b>Ödeme:</b> @(ocmde.PosOdemeleri.Where((x) => x.orderid == oid && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar : " + ocmde.PosOdemeleri.Where((x) => x.orderid == oid && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "ÖDEME YAPILMADI")
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <!-- Table row -->
+    <div class="row">
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Kod</th>
+                        <th>İsim</th>
+                        <th>Resim</th>
+                        <th>Fiyat</th>
+                        <th>Miktar</th>
+                        <th>Tutar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        decimal s = 0;
+                    }
+                    @foreach (var orderDetail in ViewBag.order.OrdersDetail)
+                    {
+                        Product pr = (Product)orderDetail.Product;
+                        Photo mainPhoto = pr.Photo.SingleOrDefault(p => p.Main == true);
+                        s += orderDetail.Price * @orderDetail.Quantity;
+                        <tr>
+                            <td>@orderDetail.Product.Code</td>
+                            <td>@orderDetail.Product.Name</td>
+                            <td><img src="https://ozerdemmotosiklet.com/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" width="80" /></td>
+                            <td>@orderDetail.Price.ToString("n")</td>
+                            <td>@orderDetail.Quantity</td>
+                            <td>@((orderDetail.Price * @orderDetail.Quantity).ToString("n"))</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" align="right">Total:</td>
+                        <td><strong>@s.ToString("n")</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+
+</section>

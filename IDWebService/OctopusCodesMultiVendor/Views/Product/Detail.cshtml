@@ -1,0 +1,132 @@
+﻿@{
+}
+
+@using IDETicaret.Models;
+
+@{
+    Product product = (Product)ViewBag.product;
+    Photo mainPhoto = product.Photo.SingleOrDefault(p => p.Main && p.Status);
+
+    ViewBag.Title = product.Name;
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+
+<!-- Breadcrumb
+============================================= -->
+<ul class="breadcrumb">
+    <li style="padding-left:10px;"><a href="@Url.Content("~/")" style="font-size:13px;">ANA SAYFA</a></li>
+    <li><a href="@Url.Content("~/Product/Search/?kategori1="+product.Category.Id)" style="font-size:13px;">@product.Category.Name</a></li>
+    <li><a href="@Url.Content("~/Product/Search/?kategori1="+product.Category.Id+"&kategori2="+product.Category1.Id)" style="font-size:13px;">@product.Category1.Name</a></li>
+    @(product.Category2 == null ? Html.Raw("") : Html.Raw("<li><a href=\""+Url.Content("~/Product/Search/?kategori1="+product.Category.Id+"&kategori2="+product.Category1.Id+"&kategori3="+product.Category2.Id)+" style=\"font-size:13px;\">"+product.Category2.Name+"</a></li>"))
+    @(product.Category3 == null ? Html.Raw("") : Html.Raw("<li><a href=\"" +Url.Content("~/Product/Search/?kategori1="+product.Category.Id+"&kategori2="+product.Category1.Id+"&kategori3="+product.Category2.Id+"&kategori4="+product.Category3.Id)+"\" style=\"font-size:13px;\">"+product.Category3.Name+"</a></li>"))
+</ul><!-- Breadcrumb End-->
+
+<div class="row">
+
+    <div id="content" class="col-sm-8">
+
+        <!-- Heading
+        ============================================= -->
+
+
+        <div class="row product-info">
+            <div class="col-sm-6">
+                <div class="image easyzoom easyzoom--adjacent easyzoom--with-thumbnails" >
+                    <a href="https://ozerdemmotosiklet.com/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" id="ResimUrl" name="ResimUrl">
+                        <img class="img-responsive" id="zoom_01" name="zoom_01" src="https://ozerdemmotosiklet.com/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" title="@product.Name" alt="@product.Name" data-zoom-image="https://ozerdemmotosiklet.com/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" />
+                    </a>
+                </div>
+                <div class="center-block text-center"><span class="zoom-gallery"><i class="fa fa-search"></i> Büyütmek için resmin üzerine gelin</span></div>
+                <div class="image-additional thumbnails"" id="gallery_01">
+                    @if (product.Photo != null && product.Photo.Count > 0)
+                    {
+                        foreach (var photo in product.Photo)
+                        {
+                            <a class="thumbnail" href="#" data-standard="https://ozerdemmotosiklet.com/Resimler/@photo.Name" data-zoom-image="https://ozerdemmotosiklet.com/Resimler/@photo.Name" data-image="https://ozerdemmotosiklet.com/Resimler/@photo.Name" title="@photo.Name" onclick="ResimDegistir('https://ozerdemmotosiklet.com/Resimler/@photo.Name');">
+                                <img src="https://ozerdemmotosiklet.com/Resimler/@photo.Name" title="@photo.Name" alt="@photo.Name" />
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <ul class="list-unstyled description">
+                    <li><h3 class="title">@product.Name</h3></li>
+                    <li><b>Ürün Kodu : </b> <a href="#">@product.Code</a></li>
+
+                    <!--<li><b>Stok Durumu:</b> <span class="instock">(product.Quantity > 0 ? "Stokta Var" : "Stokta Yok")</span></li>-->
+                </ul>
+                <ul class="price-box">
+                    <li class="price"><!--<span class="price-old">$1,202.00</span>--> <span class="real">@product.Price.ToString("n") ₺</span></li>
+                    <li></li>
+                </ul>
+                <div id="product">
+                    <div class="cart">
+                        <div>
+                            <form action="@Url.Action("Buy", "Cart", new { id = product.Id })" method="get">
+                                <div class="qty">
+                                    <input type="hidden" name="ProductID" id="ProductID" value="@product.Id" />
+                                    <label class="control-label" for="input-quantity">Miktar</label>
+                                    <a class="qtyBtn mines" href="javascript:void(0);"><i class="fa fa-minus"></i></a>
+                                    <input type="text" name="quantity" value="1" size="2" id="input-quantity" class="form-control" />
+                                    <a class="qtyBtn plus" href="javascript:void(0);"><i class="fa fa-plus"></i></a><span>@product.OlcuBirimi</span><br />
+                                    
+
+                                    <div class="clear"></div>
+                                </div>
+                                <button type="button" id="button-cart" class="btn btn-primary btn-lg" onclick="SepeteEkle();">Sepete Ekle</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-description" data-toggle="tab">Açıklama</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-description" class="tab-pane active">
+                <div>
+                    <p> @product.Description   </p>
+
+                </div>
+            </div>
+        </div>
+
+    </div><!--Middle Part End-->
+
+</div>
+
+<script type="text/javascript">
+    function SepeteEkle() {
+        $.ajax({
+            url: '/Cart/BuyJquery',
+            data: {
+                id: $("#ProductID").val(), quantity: $("#input-quantity").val()
+            },
+            success: function (data) {
+                SepetBilgisi();
+                swal({
+                    title: "Seçtiğiniz ürün sepete eklenmiştir.",
+                    type: "success",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+            }
+        });
+
+    }
+
+    function ResimDegistir(resimyolu) {
+        $("#ResimUrl").attr("href", resimyolu);
+        $("#zoom_01").attr("src", resimyolu);
+        $("#zoom_01").attr("data-zoom-image", resimyolu);
+    } 
+</script>
+
+
+

@@ -1,0 +1,529 @@
+﻿@using IDETicaret.Models;
+@model List<Orders>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+
+}
+
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Siparişler</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible">
+                        @TempData["error"]
+                    </div>
+                }
+                <div class="box-body">
+                    <div id="example1_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+
+                                <table class="table" style="float:left;width:49%;">
+                                    <tr>
+                                        <td></td>
+                                        <td style="text-align:right;">Bugün</td>
+                                        <td style="text-align:right;">Ay</td>
+                                        <td style="text-align:right;">Yıl</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sipariş Sayısı</td>
+                                        <td style="text-align:right;color:lightgreen;"><strong>@ocmde.Orders.Where((s) => s.Aktif == true && s.DateCreation == DateTime.Today).Count() Sipariş</strong></td>
+                                        <td style="text-align:right;">@ocmde.Orders.Where((s) => s.Aktif == true && s.DateCreation.Month == DateTime.Today.Month).Count() Sipariş</td>
+                                        <td style="text-align:right;">@ocmde.Orders.Where((s) => s.Aktif == true && s.DateCreation.Year == DateTime.Today.Year).Count() Sipariş</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tutar</td>
+                                        <td style="text-align:right;">@String.Format("{0:N2}₺", ocmde.PosOdemeleri.Where((x) => x.Tarih.Value == DateTime.Today && (x.procreturncode == "00" || x.response == "Approved")).Sum((x) => x.txnamount))</td>
+                                        <td style="text-align:right;">@String.Format("{0:N2}₺", ocmde.PosOdemeleri.Where((x) => x.Tarih.Value.Month == DateTime.Today.Month && (x.procreturncode == "00" || x.response == "Approved")).Sum((x) => x.txnamount))</td>
+                                        <td style="text-align:right;">@String.Format("{0:N2}₺", ocmde.PosOdemeleri.Where((x) => x.Tarih.Value.Year == DateTime.Today.Year && (x.procreturncode == "00" || x.response == "Approved")).Sum((x) => x.txnamount))</td>
+                                    </tr>
+                                    <hr />
+                                    <tr>
+                                        <td style="text-align:right;" colspan="2">Toplam Sipariş(Üye) : @Model.Where((s) => s.CustomerId != 1).Count()</td>
+                                        <td style="text-align:right;" colspan="2">Toplam Sipariş(Misafir) : @Model.Where((s) => s.CustomerId == 1).Count()</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:right;font-size:20px;color:green;" colspan="4">Kredi Kartı Ödemeleri :<strong> @String.Format("{0:N2} ₺", ocmde.PosOdemeleri.Where((x) => (x.procreturncode == "00" || x.response == "Approved")).Sum((x) => x.txnamount)) </strong> </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:right;font-size:20px;color:green;" colspan="4"><strong> @String.Format("Toplam Sipariş Tutarı({1:N0}): {0:N2} ₺", Model.Where((s) => s.OrderStatusId == 6 || s.OrderStatusId == 8 || s.OrderStatusId == 9).Sum((x) => x.OrdersDetail.Sum((y) => y.Price * y.Quantity)), Model.Where((s) => (s.OrderStatusId == 6 || s.OrderStatusId == 8 || s.OrderStatusId == 9)).Count()) </strong> </td>
+                                    </tr>
+
+                                </table>
+
+                                <div id="chartContainer" style="height: 200px; float:left;width:49%;"></div>
+                                <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+                                <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+                                <div style="clear:both;"></div>
+                                <hr />
+                                <div class="tab">
+                                    <a href="@Url.Content("~/Admin/Orders/Liste/?type=Beklemede")" class="btn tablinks">Beklemede (@ViewBag.Beklemede)</a>
+                                    <a href="@Url.Content("~/Admin/Orders/Liste/?type=Ödeme Bekliyor")" class="btn tablinks">Ödeme Bekliyor (@ViewBag.OdemeBekliyor)</a>
+                                    <a href="@Url.Content("~/Admin/Orders/Liste/?type=Hazırlanıyor")" class="btn tablinks">Hazırlanıyor (@ViewBag.Hazirlaniyor)</a>
+                                    <a href="@Url.Content("~/Admin/Orders/Liste/?type=Gönderildi")" class="btn tablinks">Gönderildi (@ViewBag.Gonderildi)</a>
+                                    <a href="@Url.Content("~/Admin/Orders/Liste/?type=Teslim Edildi")" class="btn tablinks">Teslim Edildi (@ViewBag.TeslimEdildi)</a>
+                                    <a href="@Url.Content("~/Admin/Orders/Liste/?type=İptal Edildi")" class="btn tablinks">İptal Edildi (@ViewBag.IptalEdildi)</a>
+                                    <!--
+                                    <button class="btn tablinks" onclick="openCity(event, 'Beklemede')">Beklemede (@ViewBag.Beklemede)</button>
+                                    <button class="btn tablinks" onclick="openCity(event, 'OdemeBekliyor')" style="color:cornflowerblue;">Ödeme Bekliyor (@ViewBag.OdemeBekliyor)</button>
+                                    <button class="btn tablinks" onclick="openCity(event, 'Hazirlaniliyor')">Hazırlanıyor (@ViewBag.Hazirlaniyor)</button>
+                                    <button class="btn tablinks" onclick="openCity(event, 'Gonderildi')" style="color:lightgreen;">Gönderildi (@ViewBag.Gonderildi)</button>
+                                    <button class="btn tablinks" onclick="openCity(event, 'TeslimEdildi')" style="color:green;">Teslim Edildi (@ViewBag.TeslimEdildi)</button>
+                                    <button class="btn tablinks" onclick="openCity(event, 'IptalEdildi')" style="color:red;">İptal Edildi (@ViewBag.IptalEdildi)</button>
+                                        -->
+                                </div>
+
+                                <div id="Beklemede" name="Beklemede" class="tabcontent">
+                                    <form action="/" name="formName" id="formName">
+                                        <table id="example1" name="example1"
+                                               class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th style="width:10%;">
+                                                        <label>
+                                                            <input type="checkbox" name="tum" value="remember-me" onclick="TumunuSec('formName')"> Tümü
+                                                        </label>
+                                                    </th>
+                                                    <th class="no-sort">Id</th>
+                                                    <th class="no-sort">Tarih</th>
+                                                    <th class="no-sort">Müşteri</th>
+                                                    <th class="no-sort">
+                                                        Sipariş Durumu
+                                                    </th>
+                                                    <th class="no-sort">
+                                                        Ödeme
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (IDETicaret.Models.Orders order in Model)
+                                                {
+                                                    string stringOrderID = order.Id.ToString();
+                                                    <tr>
+
+                                                        <td>
+                                                            <input type="hidden" name="Kayit_@order.Id" id="Kayit_@order.Id" value="@order.Id" />
+                                                            <input type="checkbox" name="name" value="" />
+                                                        </td>
+                                                        <td><a href="@Url.Action("Detail","Orders",new { Area = "Admin", id = order.Id })">@order.Id - @order.OrderID</a></td>
+                                                        <td>@Convert.ToDateTime(order.CDate).ToString("dd-MM-yyyy HH:MM")</td>
+                                                        <td>
+                                                            @if (order.Account != null && order.Account.Id != 1)
+                                                            {
+                                                                @Html.Raw("<a href='" + Url.Action("Detail", "Account", new { Area = "Admin", id = order.Account.Id }) + "'>" + order.Isim + "</a>")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(order.Isim)
+                                                            }
+                                                        </td>
+                                                        <td style="@(order.OrderStatus.Name.Contains("İptal") == true ? "color:red;" : "")@(order.OrderStatus.Name.Contains("Hazırlanılıyor") == true ? "color:blue;" : "")@(order.OrderStatus.Name.Contains("Teslim Edildi") == true ? "color:green;" : "")">@order.OrderStatus.Name</td>
+                                                        <td style="color:green;font-size:15px;">@(ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar (" + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().bankaAd + ") : " + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                    <select name="Tip" id="Tip" class="selected">
+                                        <option value="1">Beklemede</option>
+                                        <option value="4">Ödeme Bekliyor</option>
+                                        <option value="6">Hazırlanıyor</option>
+                                        <option value="8">Gönderildi</option>
+                                        <option value="9">Teslim Edildi</option>
+                                        <option value="10">İptal Edildi</option>
+                                    </select>
+                                    <input type="button" name="name" value="Seçilenlerin Durumunu Değiştir" onclick="DurumDegistir()" />
+                                </div>
+
+                                @if (false)
+                                {
+                                    <div id="OdemeBekliyor" class="tabcontent" style="display:none;">
+                                        <table id="example2" name="example2"
+                                               class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th style="width:10%;">
+                                                    </th>
+                                                    <th class="no-sort">Id</th>
+                                                    <th class="no-sort">Tarih</th>
+                                                    <th class="no-sort">Müşteri</th>
+                                                    <th class="no-sort">
+                                                        Sipariş Durumu
+                                                    </th>
+                                                    <th class="no-sort">
+                                                        Ödeme
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (IDETicaret.Models.Orders order in Model.Where((x) => x.OrderStatus.Name == "Ödeme Bekliyor"))
+                                                {
+                                                    string stringOrderID = order.Id.ToString();
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="Kayit_@order.Id" id="Kayit_@order.Id" value="@order.Id" />
+                                                            <input type="checkbox" name="name" value="" />
+                                                        </td>
+                                                        <td><a href="@Url.Action("Detail", "Orders", new { Area = "Admin", id = order.Id })">@order.Id - @order.OrderID</a></td>
+                                                        <td>@Convert.ToDateTime(order.CDate).ToString("dd-MM-yyyy HH:mm")</td>
+                                                        <td>
+                                                            @if (order.Account != null && order.Account.Id != 1)
+                                                            {
+                                                                @Html.Raw("<a href='" + Url.Action("Detail", "Account", new { Area = "Admin", id = order.Account.Id }) + "'>" + order.Isim + "</a>")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(order.Isim)
+                                                            }
+                                                        </td>
+                                                        <td style="@(order.OrderStatus.Name.Contains("İptal") == true ? "color:red;" : "")@(order.OrderStatus.Name.Contains("Hazırlanılıyor") == true ? "color:blue;" : "")@(order.OrderStatus.Name.Contains("Teslim Edildi") == true ? "color:green;" : "")">@order.OrderStatus.Name</td>
+                                                        <td style="color:green;font-size:15px;">@(ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar (" + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().bankaAd + ") : " + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <input type="button" name="name" value="Seçilenlerin Durumunu Değiştir (Bir sonraki)" onclick="DurumDegistir()" />
+                                    </div>
+                                    <div id="Hazirlaniliyor" class="tabcontent" style="display:none;">
+                                        <table id="example3" name="example3"
+                                               class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th style="width:10%;">
+                                                    </th>
+                                                    <th class="no-sort">Id</th>
+                                                    <th class="no-sort">Tarih</th>
+                                                    <th class="no-sort">Müşteri</th>
+                                                    <th class="no-sort">
+                                                        Sipariş Durumu
+                                                    </th>
+                                                    <th class="no-sort">
+                                                        Ödeme
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (IDETicaret.Models.Orders order in Model.Where((x) => x.OrderStatus.Name == "Hazırlanıyor"))
+                                                {
+                                                    string stringOrderID = order.Id.ToString();
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="Kayit_@order.Id" id="Kayit_@order.Id" value="@order.Id" />
+                                                            <input type="checkbox" name="name" value="" />
+                                                        </td>
+                                                        <td><a href="@Url.Action("Detail", "Orders", new { Area = "Admin", id = order.Id })">@order.Id - @order.OrderID</a></td>
+                                                        <td>@Convert.ToDateTime(order.CDate).ToString("dd-MM-yyyy HH:mm")</td>
+                                                        <td>
+                                                            @if (order.Account != null && order.Account.Id != 1)
+                                                            {
+                                                                @Html.Raw("<a href='" + Url.Action("Detail", "Account", new { Area = "Admin", id = order.Account.Id }) + "'>" + order.Isim + "</a>")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(order.Isim)
+                                                            }
+                                                        </td>
+                                                        <td style="@(order.OrderStatus.Name.Contains("İptal") == true ? "color:red;" : "")@(order.OrderStatus.Name.Contains("Hazırlanılıyor") == true ? "color:blue;" : "")@(order.OrderStatus.Name.Contains("Teslim Edildi") == true ? "color:green;" : "")">@order.OrderStatus.Name</td>
+                                                        <td style="color:green;font-size:15px;">@(ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar (" + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().bankaAd + ") : " + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <input type="button" name="name" value="Seçilenlerin Durumunu Değiştir (Bir sonraki)" onclick="DurumDegistir()" />
+                                    </div>
+                                    <div id="Gonderildi" class="tabcontent" style="display:none;">
+                                        <table id="example4" name="example4"
+                                               class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th style="width:10%;">
+
+                                                    </th>
+                                                    <th class="no-sort">Id</th>
+                                                    <th class="no-sort">Tarih</th>
+                                                    <th class="no-sort">Müşteri</th>
+                                                    <th class="no-sort">
+                                                        Sipariş Durumu
+                                                    </th>
+                                                    <th class="no-sort">
+                                                        Ödeme
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (IDETicaret.Models.Orders order in Model.Where((x) => x.OrderStatus.Name == "Gönderildi"))
+                                                {
+                                                    string stringOrderID = order.Id.ToString();
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="Kayit_@order.Id" id="Kayit_@order.Id" value="@order.Id" />
+                                                            <input type="checkbox" name="name" value="" />
+                                                        </td>
+                                                        <td><a href="@Url.Action("Detail", "Orders", new { Area = "Admin", id = order.Id })">@order.Id - @order.OrderID</a></td>
+                                                        <td>@Convert.ToDateTime(order.CDate).ToString("dd-MM-yyyy HH:mm")</td>
+                                                        <td>
+                                                            @if (order.Account != null && order.Account.Id != 1)
+                                                            {
+                                                                @Html.Raw("<a href='" + Url.Action("Detail", "Account", new { Area = "Admin", id = order.Account.Id }) + "'>" + order.Isim + "</a>")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(order.Isim)
+                                                            }
+                                                        </td>
+                                                        <td style="@(order.OrderStatus.Name.Contains("İptal") == true ? "color:red;" : "")@(order.OrderStatus.Name.Contains("Hazırlanılıyor") == true ? "color:blue;" : "")@(order.OrderStatus.Name.Contains("Teslim Edildi") == true ? "color:green;" : "")">@order.OrderStatus.Name</td>
+                                                        <td style="color:green;font-size:15px;">@(ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar (" + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().bankaAd + ") : " + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <input type="button" name="name" value="Seçilenlerin Durumunu Değiştir (Bir sonraki)" onclick="DurumDegistir()" />
+                                    </div>
+                                    <div id="TeslimEdildi" class="tabcontent" style="display:none;">
+                                        <table id="example5"
+                                               class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="no-sort">Id</th>
+                                                    <th class="no-sort">Tarih</th>
+                                                    <th class="no-sort">Müşteri</th>
+                                                    <th class="no-sort">
+                                                        Sipariş Durumu
+                                                    </th>
+                                                    <th class="no-sort">
+                                                        Ödeme
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (IDETicaret.Models.Orders order in Model.Where((x) => x.OrderStatus.Name == "Teslim Edildi"))
+                                                {
+                                                    string stringOrderID = order.Id.ToString();
+                                                    <tr>
+                                                        <td><a href="@Url.Action("Detail", "Orders", new { Area = "Admin", id = order.Id })">@order.Id - @order.OrderID</a></td>
+                                                        <td>@Convert.ToDateTime(order.CDate).ToString("dd-MM-yyyy HH:mm")</td>
+                                                        <td>
+                                                            @if (order.Account != null && order.Account.Id != 1)
+                                                            {
+                                                                @Html.Raw("<a href='" + Url.Action("Detail", "Account", new { Area = "Admin", id = order.Account.Id }) + "'>" + order.Isim + "</a>")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(order.Isim)
+                                                            }
+                                                        </td>
+                                                        <td style="@(order.OrderStatus.Name.Contains("İptal") == true ? "color:red;" : "")@(order.OrderStatus.Name.Contains("Hazırlanılıyor") == true ? "color:blue;" : "")@(order.OrderStatus.Name.Contains("Teslim Edildi") == true ? "color:green;" : "")">@order.OrderStatus.Name</td>
+                                                        <td style="color:green;font-size:15px;">@(ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar (" + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().bankaAd + ") : " + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="IptalEdildi" class="tabcontent" style="display:none;">
+                                        <table id="example6"
+                                               class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="no-sort">Id</th>
+                                                    <th class="no-sort">Tarih</th>
+                                                    <th class="no-sort">Müşteri</th>
+                                                    <th class="no-sort">
+                                                        Sipariş Durumu
+                                                    </th>
+                                                    <th class="no-sort">
+                                                        Ödeme
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (IDETicaret.Models.Orders order in Model.Where((x) => x.OrderStatus.Name == "İptal Edildi"))
+                                                {
+                                                    string stringOrderID = order.Id.ToString();
+                                                    <tr>
+                                                        <td><a href="@Url.Action("Detail", "Orders", new { Area = "Admin", id = order.Id })">@order.Id - @order.OrderID</a></td>
+                                                        <td>@Convert.ToDateTime(order.CDate).ToString("dd-MM-yyyy HH:mm")</td>
+                                                        <td>
+                                                            @if (order.Account != null && order.Account.Id != 1)
+                                                            {
+                                                                @Html.Raw("<a href='" + Url.Action("Detail", "Account", new { Area = "Admin", id = order.Account.Id }) + "'>" + order.Isim + "</a>")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(order.Isim)
+                                                            }
+                                                        </td>
+                                                        <td style="@(order.OrderStatus.Name.Contains("İptal") == true ? "color:red;" : "")@(order.OrderStatus.Name.Contains("Hazırlanılıyor") == true ? "color:blue;" : "")@(order.OrderStatus.Name.Contains("Teslim Edildi") == true ? "color:green;" : "")">@order.OrderStatus.Name</td>
+                                                        <td style="color:green;font-size:15px;">@(ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).Count() > 0 ? "Ödenen Tutar (" + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().bankaAd + ") : " + ocmde.PosOdemeleri.Where((x) => (x.orderid == order.OrderID || x.orderid == stringOrderID) && (x.procreturncode == "00" || x.response == "Approved")).FirstOrDefault().txnamount.ToString() + " ₺" : "")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+
+@section Scripts
+{
+
+    <script src="@Url.Content("~/Content/UserNew/jquery-ui/jquery-ui.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/UserNew/boostrapv3/js/bootstrap.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+       window.onload = function () {
+
+           //Better to construct options first and then pass it as a parameter
+           var options = {
+               animationEnabled: true,
+               title: {
+                   text: "Sipariş Rakamları",
+                   fontColor: "Peru"
+               },
+               axisY: {
+                   tickThickness: 0,
+                   lineThickness: 0,
+                   valueFormatString: " ",
+                   gridThickness: 0
+               },
+               axisX: {
+                   tickThickness: 0,
+                   lineThickness: 0,
+                   labelFontSize: 10,
+                   labelFontColor: "Peru"
+               },
+               data: [{
+                   indexLabelFontSize: 10,
+                   toolTipContent: "<span style=\"color:black\">{indexLabel}:</span> <span style=\"color:#CD853F\"><strong>{y}</strong></span>",
+                   indexLabelPlacement: "inside",
+                   indexLabelFontColor: "black",
+                   indexLabelFontWeight: 600,
+                   indexLabelFontFamily: "Verdana",
+                   color: "#62C9C3",
+                   type: "bar",
+                   dataPoints: [
+                       { y: @Model.Where((x) => x.OrderStatus.Name == "Beklemede").Count(), label: "@Model.Where((x) => x.OrderStatus.Name == "Beklemede").Count()", indexLabel: "Beklemede" },
+                       { y: @Model.Where((x) => x.OrderStatus.Name == "Ödeme Bekliyor").Count(), label: "@Model.Where((x) => x.OrderStatus.Name == "Ödeme Bekliyor").Count()", indexLabel: "Ödeme Bekliyor" },
+                       { y: @Model.Where((x) => x.OrderStatus.Name == "Hazırlanılıyor").Count(), label: "@Model.Where((x) => x.OrderStatus.Name == "Hazırlanılıyor").Count()", indexLabel: "Hazırlanılıyor" },
+                       { y: @Model.Where((x) => x.OrderStatus.Name == "Gönderildi").Count(), label: "@Model.Where((x) => x.OrderStatus.Name == "Gönderildi").Count()", indexLabel: "Gönderildi" },
+                       { y: @Model.Where((x) => x.OrderStatus.Name == "Teslim Edildi").Count(), label: "@Model.Where((x) => x.OrderStatus.Name == "Teslim Edildi").Count()", indexLabel: "Teslim Edildi" },
+                       { y: @Model.Where((x) => x.OrderStatus.Name == "İptal Edildi").Count(), label: "@Model.Where((x) => x.OrderStatus.Name == "İptal Edildi").Count()", indexLabel: "İptal Edildi" }
+                   ]
+               }]
+           };
+
+           $("#chartContainer").CanvasJSChart(options);
+       }
+
+
+       function openCity(evt, cityName) {
+           // Declare all variables
+           var i, tabcontent, tablinks;
+
+           // Get all elements with class="tabcontent" and hide them
+           tabcontent = document.getElementsByClassName("tabcontent");
+           for (i = 0; i < tabcontent.length; i++) {
+               tabcontent[i].style.display = "none";
+           }
+
+           // Get all elements with class="tablinks" and remove the class "active"
+           tablinks = document.getElementsByClassName("tablinks");
+           for (i = 0; i < tablinks.length; i++) {
+               tablinks[i].className = tablinks[i].className.replace(" active", "");
+           }
+
+           // Show the current tab, and add an "active" class to the button that opened the tab
+           document.getElementById(cityName).style.display = "block";
+           evt.currentTarget.className += " active";
+        }
+
+
+        function TumunuSec(formName) {
+            var selectName = document.formName;
+            var checkNumber = selectName.length;
+
+            if (document.formName.tum.checked == false) {
+                for (i = 0; i < checkNumber; i++) {
+                    selectName[i].checked = false;
+                }
+            } else {
+                for (i = 0; i < checkNumber; i++) {
+                    selectName[i].checked = true;
+                }
+            }
+        }
+
+
+        function DurumDegistir() {
+            var table = document.getElementById('example1');
+            var idler = "";
+            var tip = $("#Tip").val();
+
+
+        for (var i = 1; i < table.rows.length; i++) {
+            try {
+                var id = (table.rows[i].cells[0].getElementsByTagName("input")[0].value);
+                var secim = (table.rows[i].cells[0].getElementsByTagName("input")[1].checked);
+
+                if (id != null) {
+                    if (secim == true) {
+                        idler += id + "|";
+                        console.log(id + "-" + secim + "-true");
+                    }
+                }
+            } catch (err){
+                ;
+            }
+        }
+
+
+        $.ajax({
+            url: '/Admin/Orders/DurumuDegistir',
+            data: "{ 'idler': '" + idler + "', 'Tip':'" + tip + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataFilter: function (data) { return data; },
+            success: function (data) {
+
+                document.location.reload();
+                //alert("Seçilenlerin durumları değiştirildi, lütfen sayfayı yenileyiniz.");
+
+            },
+            error: function (msg) {
+                //waitingDialog.hide();
+            }
+        });
+
+        }
+
+
+
+
+    </script>
+
+}
+

@@ -1,0 +1,566 @@
+﻿<style type="text/css">
+    .ustKisim {
+        float: right;
+        height: 330px;
+        width: 250px;
+        padding: 10px;
+        border: 10px;
+        border-style: double;
+        border-color: green;
+        background-color: white;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 15px;
+        border-radius: 15px;
+    }
+
+
+    .form-control {
+        background-color: #ffffff;
+        background-image: none;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        font-family: Arial, sans-serif;
+        -webkit-appearance: none;
+        color: #2c2c2c;
+        outline: 0;
+        height: 35px;
+        padding: 9px 12px;
+        line-height: normal;
+        font-size: 14px;
+        font-weight: normal;
+        vertical-align: middle;
+        min-height: 35px;
+        -webkit-transition: all 0.12s ease;
+        transition: all 0.12s ease;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-transition: background 0.2s linear 0s;
+        transition: background 0.2s linear 0s;
+    }
+</style>
+@using IDETicaret.Models;
+@{
+    ViewBag.Title = "ConfirmOrder";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+
+    List<Sehirler> sehirler = ViewBag.Sehirler as List<Sehirler>;
+    int OrderID = Convert.ToInt32(ViewBag.OrderID);
+
+    List<Adresler> adresler = ViewBag.Adresler as List<Adresler>;
+}
+
+@model IDETicaret.Models.Account
+
+<div style="text-align:center;">
+    <img src="@Url.Content("~/Content/UserNew/sepetilerlemesi/asama2.png")" alt="@System.Configuration.ConfigurationManager.AppSettings["SiteDomain"]" /><br />
+    <span style="padding-right:80px;padding-left:80px;color:black;"><strong>Sepet</strong></span>
+    <span style="padding-right:80px;color:black;"><strong>Teslimat</strong></span>
+    <span style="padding-right:80px;color:lightgray;"><strong>Ödeme</strong></span>
+    <span style="padding-right:80px;color:lightgray;"><strong>Onay</strong></span>
+    <hr />
+</div>
+<div id="content" style="width:100%;font-size:20px;padding:10px;margin-top:0px;">
+
+    <form action="@Url.Action("ConfirmOrder3","Cart",null)" method="get" id="MyForm" name="MyForm">
+
+        <div class="panel panel-default" style="float:left;width:70%;margin-right:10px;">
+
+            <div>
+                @if (adresler != null)
+                {
+                    foreach (Adresler item in adresler)
+                    {
+                        <a>
+                            <div style="float:left;width:200px;height:135px;margin:5px;padding:5px;;background-color:aliceblue;color:black;"
+                                 onclick="AdresiDoldur('@item.Isim','@item.Adres','@item.CepTelefonu','@item.TC','@item.AdresIsmi','@item.FirmaAdi','@item.VergiDairesi','@item.VergiNumarasi','@item.Il','@item.Ilce','@item.FaturaTuru');">
+                                <strong> <span style="font-size:14px;">@item.AdresIsmi</span><br /></strong>
+                                <span style="font-size:10px;">@item.Isim / @item.TC</span><br />
+                                <span style="font-size:8px;">@item.Adres</span><br />
+                                <span style="font-size:10px;">@item.CepTelefonu</span><br />
+                                <span style="font-size:10px;">@item.FirmaAdi - @item.VergiDairesi / @item.VergiNumarasi</span><br />
+                            </div>
+                        </a>
+                    }
+                }
+            </div>
+            <div style="clear:both;"></div>
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Yeni Teslimat Bilgileri
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                    <a href="#grid-config" data-toggle="modal" class="config"></a>
+                    <a href="javascript:;" class="reload"></a>
+                    <a href="javascript:;" class="remove"></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label style="font-size:15px;">Ad Soyad</label>
+                            <input type="text" id="AdSoyad" name="AdSoyad" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6" style="padding:0px;">
+                                <label style="font-size:15px;">İl</label>
+                                <select onchange="IlleriGetir();" class="form-control full-width" data-init-plugin="select2" id="Il" name="Il" required>
+
+                                    <option value="">Lütfen il seçiniz...</option>
+                                    @foreach (Sehirler sehir in sehirler)
+                                    {
+                                        <option value="@sehir.Kod">@sehir.Isim</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6" style="padding:0px;">
+                                <label style="font-size:15px;">İlçe</label>
+                                <select class="form-control full-width" data-init-plugin="select2" id="Ilce" name="Ilce" required></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-size:15px;margin-top:10px;">Adres</label>
+                            <textarea class="form-control" rows="5" id="Adres" name="Adres" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label style="font-size:15px;">Cep Telefonu</label>
+                            <input type="text" id="phone" name="CepTelefonu" class="form-control" onClick="this.select();" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:15px;">TC Kimlik No</label>
+                            <input type="text" id="TCKimlikNo" name="TCKimlikNo" class="form-control" minlength="11" maxlength="11" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:15px;">Adres Başlığı</label>
+                            <input type="text" id="phoneaa" name="AdresBasligi" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <select id="BK" name="BK" onchange="FaturaKontrolYap()" class="form-control" style="border:1px;border-style:double;border-color:lawngreen;">
+                                <option value="B" selected>Fatura Türü : Bireysel</option>
+                                <option value="K">Fatura Türü : Kurumsal</option>
+                            </select>
+                        </div>
+
+                        <div id="Kurumsal1" name="Kurumsal1" style="display:none;">
+                            <div class="form-group">
+                                <label style="font-size:15px;">Firma Adı</label>
+                                <input type="text" id="FirmaAdi" name="FirmaAdi" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6" style="padding:0px;">
+                                    <label style="font-size:15px;">Vergi Dairesi</label>
+                                    <input type="text" id="VergiDairesi" name="VergiDairesi" class="form-control">
+                                </div>
+                                <div class="col-md-6" style="padding:0px;">
+                                    <label style="font-size:15px;">Vergi Numarası</label>
+                                    <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control" maxlength="11">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ustKisim" style="font-size: 20px;">
+            <span><strong>Sipariş Özeti</strong></span>
+            <br /><br />
+            <span style="font-size:15px;">Toplam <span id="SatinAlUrunSayisi" name="SatinAlUrunSayisi">0</span> ürün</span>
+            <br />
+            <br />
+            <table style="width:100%;">
+                <tr>
+                    <td><strong>Toplam</strong><br /></td>
+                    <td style="text-align:right;"><strong><span id="SatinAlTutar" name="SatinAlTutar">0,00</span></strong><br /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:14px;"><span style="font-size:12px;">(KDV Dahil)</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:14px;">
+                        <br />
+                        <strong>
+                            <span style="color:red;" id="KargoBilgisi" name="KargoBilgisi">Kargo ücreti alıcıya aittir.<a data-toggle="tooltip" data-placement="bottom" title="" style="background-color: gray;border-radius: 100px;padding-left:5px;padding-right:5px;color:white;">?</a></span>
+                        </strong>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+                        <input class="btn btn-large pull-right btn-warning" style="background-color:limegreen;width:100%;" type="button" name="name" value="Satın Al" onclick="FormuGonder();" />
+
+                        <i class="icon-arrow-right"></i>
+                        <br /><br />
+                        <div style="text-align:center;padding-top:10px;">
+                            <a href="@Url.Content("~/")" style="font-size:14px;color:dodgerblue;">< Alışverişe Devam Et</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+
+
+            <div id="MainContent_download1" style="display:none;" role="status" aria-hidden="true">
+
+                <img id="MainContent_Image2" src="uploads/loading.gif" style="height:100px;" />
+
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
+
+@section scripts {
+
+    <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-select2/select2.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/dropzone/dropzone.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/jquery-autonumeric/autoNumeric.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/jquery-inputmask/jquery.inputmask.min.js")"></script>
+    <script src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/Confirm/assets/plugins/summernote/js/summernote.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/Confirm/assets/plugins/moment/moment.min.js")"></script>
+    <script src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-daterangepicker/daterangepicker.js")"></script>
+    <script src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/Content/Confirm/assets/js/form_elements.js")" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+        $("#TCKimlikNo").on("keypress", function (event) {
+            if (event.keyCode != 8 && event.keyCode != 0 && (event.keyCode < 48 || event.keyCode > 57))
+                return false;
+        });
+        $("#VergiNumarasi").on("keypress", function (event) {
+            if (event.keyCode != 8 && event.keyCode != 0 && (event.keyCode < 48 || event.keyCode > 57))
+                return false;
+        });
+        $("#VergiDairesi").on("keypress", function (event) {
+            if (event.keyCode != 8 && event.keyCode != 0 && (event.keyCode < 48 || event.keyCode > 57)) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        function FaturaKontrolYap() {
+            if ($("#BK").val() == "B") {
+                $("#Kurumsal1").hide();
+            } else {
+                $("#Kurumsal1").show();
+            }
+
+        }
+        (function ($) {
+            'use strict';
+            var getBaseURL = function () {
+                var url = document.URL;
+                return url.substr(0, url.lastIndexOf('/'));
+            }
+        })
+    </script>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            //Multiselect - Select2 plug-in
+            $("#multi").val(["Jim", "Lucy"]).select2();
+
+            //Date Pickers
+            $('#datepicker-range, #datepicker-component, #datepicker-component2').datepicker();
+
+            $('#datepicker-embeded').datepicker({
+                daysOfWeekDisabled: "0,1"
+            });
+
+
+            $('#daterangepicker').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                format: 'MM/DD/YYYY h:mm A'
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+
+            /* Time picker
+             * https://github.com/m3wolf/bootstrap3-timepicker
+             */
+            $('#timepicker').timepicker().on('show.timepicker', function (e) {
+                var widget = $('.bootstrap-timepicker-widget');
+                widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
+                widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
+            });
+
+
+
+            // disabling dates
+            var nowTemp = new Date();
+            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+            //Input mask - Input helper
+            $(function ($) {
+                $("#date").mask("99/99/9999");
+                $("#Telefon").mask("(999) 999-9999");
+                $("#tin").mask("99-9999999");
+                $("#ssn").mask("999-99-9999");
+            });
+            //Autonumeric plug-in - automatic addition of dollar signs,etc controlled by tag attributes
+            $('.autonumeric').autoNumeric('init');
+
+            //Drag n Drop up-loader
+            $("div#myId").dropzone({
+                url: "/file/post"
+            });
+            //Single instance of tag inputs - can be initiated with simply using data-role="tagsinput" attribute in any input field
+            $('.custom-tag-input').tagsinput({
+
+            });
+
+            var myCustomTemplates = {
+                "font-styles": function (locale) {
+                    return '<li class="dropdown">' + '<a data-toggle="dropdown" class="btn btn-default dropdown-toggle ">' + '<span class="editor-icon editor-icon-headline"></span>' + '<span class="current-font">Normal</span>' + '<b class="caret"></b>' + '</a>' + '<ul class="dropdown-menu">' + '<li><a tabindex="-1" data-wysihtml5-command-value="p" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Normal</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h1" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">1</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h2" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">2</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h3" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">3</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h4" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">4</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h5" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">5</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h6" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">6</a></li>' + '</ul>' + '</li>';
+                },
+                emphasis: function (locale) {
+                    return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="CTRL+B" data-wysihtml5-command="bold" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-bold"></i></a>' + '<a tabindex="-1" title="CTRL+I" data-wysihtml5-command="italic" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-italic"></i></a>' + '<a tabindex="-1" title="CTRL+U" data-wysihtml5-command="underline" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-underline"></i></a>' + '</div>' + '</li>';
+                },
+                blockquote: function (locale) {
+                    return '<li>' + '<a tabindex="-1" data-wysihtml5-display-format-name="false" data-wysihtml5-command-value="blockquote" data-wysihtml5-command="formatBlock" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-quote"></i>' + '</a>' + '</li>'
+                },
+                lists: function (locale) {
+                    return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="Unordered list" data-wysihtml5-command="insertUnorderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ul"></i></a>' + '<a tabindex="-1" title="Ordered list" data-wysihtml5-command="insertOrderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ol"></i></a>' + '<a tabindex="-1" title="Outdent" data-wysihtml5-command="Outdent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-outdent"></i></a>' + '<a tabindex="-1" title="Indent" data-wysihtml5-command="Indent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-indent"></i></a>' + '</div>' + '</li>'
+                },
+                image: function (locale) {
+                    return '<li>' + '<div class="bootstrap-wysihtml5-insert-image-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert image</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-image-url form-control" value="http://">' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary">Insert image</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert image" data-wysihtml5-command="insertImage" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-image"></i>' + '</a>' + '</li>'
+                },
+                link: function (locale) {
+                    return '<li>' + '<div class="bootstrap-wysihtml5-insert-link-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert link</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-link-url form-control" value="http://">' + '<label class="checkbox"> <input type="checkbox" checked="" class="bootstrap-wysihtml5-insert-link-target">Open link in new window</label>' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary" href="#">Insert link</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert link" data-wysihtml5-command="createLink" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-link"></i>' + '</a>' + '</li>'
+                },
+                html: function (locale) {
+                    return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="Edit HTML" data-wysihtml5-action="change_view" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-html"></i>' + '</a>' + '</div>' + '</li>'
+                }
+            }
+
+
+            $('#summernote').summernote({
+                height: 200,
+                onfocus: function (e) {
+                    $('body').addClass('overlay-disabled');
+                },
+                onblur: function (e) {
+                    $('body').removeClass('overlay-disabled');
+                }
+            });
+
+
+        });
+
+        $.ajax({
+                url: '@Url.Content("~/Cart/OdemeSepetBilgisi?OrderID="+OrderID)',
+            success: function (data) {
+                $("#SatinAlUrunSayisi").html(data.UrunSayisi);
+                $("#SatinAlTutar").html(data.Tutar);
+
+                if (parseFloat(data.Tutar.replace("₺", "").replace(",", "")) > 300) {
+                    $("#KargoBilgisi").html("ÜCRETSİZ KARGO");
+                }
+                }
+        });
+
+        function IlleriGetir() {
+
+            var deger = $("#Il").val();
+
+
+            if (deger != null && deger != "") {
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: "/Cart/IlceleriGetir",
+                    data: { "SehirID": deger },
+                    success: function (data) {
+
+                        $("#Ilce").empty();
+                        $("#Ilce").append('<option value="">İlçe Seçiniz...</option>');
+
+                        for (var i = 0; i < data.length; i++) {
+                            $("#Ilce").append('<option value="' + data[i].Isim + '">' + data[i].Isim + '</option>');
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.m);
+                    }
+                });
+            }
+        }
+        function AdresiDoldur(isim, adres, ceptelefonu, tc, adresismi, firmaadi, vergidairesi, verginumarasi, il, ilce, faturatipi) {
+            document.getElementById("Il").value = il;
+            IlleriGetir();
+            $("#AdSoyad").val(isim);
+            $("#Adres").val(adres);
+            $("#phone").val(ceptelefonu);
+            $("#TCKimlikNo").val(tc);
+            $("#phoneaa").val(adresismi);
+            document.getElementById("BK").value = faturatipi;
+            $("#FirmaAdi").val(firmaadi);
+            $("#VergiDairesi").val(vergidairesi);
+            $("#VergiNumarasi").val(verginumarasi);
+            if ($("#BK").val() == "B") {
+                $("#Kurumsal1").hide();
+            } else {
+                $("#Kurumsal1").show();
+            }
+
+            document.getElementById("Ilce").value = ilce;
+        }
+        function FormuGonder() {
+
+
+            if ($("#AdSoyad").val() == "") {
+                swal({
+                    title: "Lütfen adınızı yazınız.",
+                    type: "error",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if ($("#Il").val() == "") {
+                swal({
+                    title: "Lütfen il yazınız.",
+                    type: "error",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if ($("#Ilce").val() == "") {
+                swal({
+                    title: "Lütfen ilçe yazınız.",
+                    type: "error",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if ($("#Adres").val() == "") {
+                swal({
+                    title: "Lütfen adres yazınız.",
+                    type: "error",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+            if ($("#CepTelefonu").val() == "") {
+                swal({
+                    title: "Lütfen cep telefonu yazınız.",
+                    type: "error",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if ($("#TCKimlikNo").val() == "") {
+                swal({
+                    title: "Lütfen TC kimlik no yazınız.",
+                    type: "error",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+            if ($("#TCKimlikNo").val().length != 11) {
+                swal({
+                    title: "Lütfen TC kimlik noyu doğru yazınız.",
+                    type: "error",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+
+            if ($("#BK").val() == "K") {
+
+
+                if ($("#FirmaAdi").val() == "") {
+                    swal({
+                        title: "Lütfen firma adınız yazınız.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                if ($("#VergiNumarasi").val() == "") {
+                    swal({
+                        title: "Lütfen vergi numarası yazınız.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                if ($("#VergiNumarasi").val().length != 10) {
+                    swal({
+                        title: "Lütfen vergi numarası doğru yazınız.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                if ($("#VergiDairesi").val() == "") {
+                    swal({
+                        title: "Lütfen vergi dairesi yazınız.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+            }
+
+            document.getElementById("MyForm").submit();
+        }
+
+    </script>
+}  

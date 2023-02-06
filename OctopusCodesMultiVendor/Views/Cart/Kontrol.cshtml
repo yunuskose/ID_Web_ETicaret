@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Kontrol</title>
+</head>
+<body>
+
+    <span>LCID</span>@Session.LCID
+    <br />
+    <span>Mode</span>@Session.Mode
+    <br />
+    <span>SessionID:</span>@Session.SessionID
+    <br />
+    <span>Timeout:</span>@Session.Timeout
+    <br />
+    @for (int i = 0; i < Session.Keys.Count; i++)
+    {
+        <span>@Session[i]</span>
+    }
+    <br />
+    @for (int i = 0; i < Session.Keys.Count; i++)
+    {
+        <span>@Session.Keys[i]</span>
+    }
+    @if (IDETicaret.Security.SessionPersister.account == null)
+    {
+        <span>Session NULL</span>
+    }
+    else
+    {
+        <span>Session Object</span>
+    }
+    @{
+
+
+        List<IDETicaret.Models.Item> test = (List<IDETicaret.Models.Item>)Session["cart"];
+
+    }
+    <br />
+    @if (test != null)
+    {
+        @Html.Raw("Sepet Sayısı:" + test.Count)
+    }
+    else
+    {
+        @Html.Raw("Sepet Sayısı:" )
+    }<br />
+    <span>Account ID : </span>@(((IDETicaret.Models.Account)IDETicaret.Security.SessionPersister.account).Id)
+</body>
+</html>

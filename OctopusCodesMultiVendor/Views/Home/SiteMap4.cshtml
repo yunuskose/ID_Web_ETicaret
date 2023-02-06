@@ -1,0 +1,19 @@
+﻿@using IDETicaret.Models;
+@model List<IDETicaret.Models.Product>
+@{
+    ViewBag.Title = "SiteMap";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<table>
+    <thead>
+    <th>Site Haritası</th>
+    </thead>
+    @foreach (IDETicaret.Models.Product product in Model)
+    {
+        <tr>
+            <td><a href="@Url.SeoLink_UrunDetayLinki(product)">@product.Name</a></td>
+        </tr>
+    }
+</table>

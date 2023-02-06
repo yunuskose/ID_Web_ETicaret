@@ -1,0 +1,243 @@
+﻿@using IDETicaret.Models;
+@using IDETicaret.Security;
+@model List<Card>
+@{
+    ViewBag.Title = "Alışveriş Sepetim";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div style="text-align:center;">
+    <img src="@Url.Content("~/Content/UserNew/sepetilerlemesi/asama1.png")" alt="@System.Configuration.ConfigurationManager.AppSettings["SiteDomain"]" /><br />
+    <span style="padding-right:80px;padding-left:80px;color:black;"><strong>Sepet</strong></span>
+    <span style="padding-right:80px;color:lightgray;"><strong>Teslimat</strong></span>
+    <span style="padding-right:80px;color:lightgray;"><strong>Ödeme</strong></span>
+    <span style="padding-right:80px;color:lightgray;"><strong>Onay</strong></span>
+    <hr />
+</div>
+
+<h3>  Alışveriş Sepeti [ <small>@(Model.Count) ürün </small>]<a href="@Url.Action("Index", "Home")" class="btn btn-large pull-right btn-danger"><i class="icon-arrow-left"></i>Alışverişe Devam Et</a></h3>
+<hr class="soft">
+<form id="formName" name="formName">
+
+    <table class="table table-bordered" id="TableForm" name="Tableform">
+        <thead>
+            <tr>
+                <th colspan="2" style="width:10%;">
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="tum" value="remember-me" onclick="TumunuSec('formName')" checked> Tümünü Seç
+                        </label>
+                    </div>
+                </th>
+                <th style="vertical-align: middle;">İsim</th>
+                <th style="width:8%;vertical-align: middle;">Miktar</th>
+                <th style="width:8%;vertical-align: middle;text-align:right;">Fiyat</th>
+                <th style="width:8%;vertical-align: middle;text-align:right;">Tutar</th>
+                <th style="width:5%;vertical-align: middle;">Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null)
+            {
+                foreach (Card item in Model)
+                {
+                    Product pr = (Product)item.Product;
+                    Photo mainPhoto = pr.Photo.SingleOrDefault(p => p.Main && p.Status);
+                    <tr>
+                        <td style="vertical-align: middle;">
+                            <input type="hidden" name="StokKodu_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")" id="StokKodu_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")" value="@item.Product.Code.Replace(" ","IDYAZILIM")" />
+                            <input type="checkbox" name="name" value="" checked />
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <a href="@Url.Action("Detail", "Product", new { id = item.Product.Id })">
+                                <img src="https://ozerdemmotosiklet.com/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" width="60" />
+                            </a>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <a href="@Url.Action("Detail", "Product", new { id = item.Product.Id })" style="font-size:16px;">
+                                @item.Product.Name
+                            </a><br />
+                            <a href="@Url.Action("Detail", "Product", new { id = item.Product.Id })" style="color:grey;font-size:11px;">
+                                @item.Product.Code
+                            </a>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <!-- @Url.Action("Update", "Cart") -->
+                            <div class="input-append">
+                                <input type="button" value="-" style="height:25px;" onclick="SepetGuncelle('@item.Product.Code.Replace(" ","IDYAZILIM")','-1','Miktar_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")')" />
+                                <input readonly style="max-width:30px;text-align:center;margin-left:-3px;height:25px;" placeholder="1" size="16" type="text" min="1" value="@item.Quantity" name="Miktar_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")" id="Miktar_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")">
+                                <input type="button" value="+" style="margin-left:-4px;height:25px;" onclick="SepetGuncelle('@item.Product.Code.Replace(" ","IDYAZILIM")','1','Miktar_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")')" />
+                                <input type="hidden" name="productId" value="@item.Product.Id" />
+                            </div>
+
+                        </td>
+                        <td style="text-align:right;vertical-align: middle;"><span id="Fiyat_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")" name="Fiyat_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")">@item.Product.Price.ToString("n")</span>₺</td>
+                        <td style="text-align:right;vertical-align: middle;">
+                            <span id="Tutar_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")" name="Tutar_@item.Product.Code.Replace(" ","IDYAZILIM").Replace(".","")">@(Convert.ToDecimal((item.Product.Price * item.Quantity)).ToString("n"))</span>₺
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <a href="@Url.Action("Remove", "Cart", new { id = item.Product.Id })"><i class="far fa-trash-alt"></i>Sil</a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5" style="text-align:right">Toplam Tutar(KDV Dahil): 	</td>
+                    <td style="display:block;text-align:right;"> <strong> <span id="Toplam" name="Toplam">@(Convert.ToDecimal(Model.Sum(i => i.Product.Price * i.Quantity)).ToString("n"))</span>₺ </strong></td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</form>
+
+<a href="@Url.Action("Index", "Home")" class="btn btn-large  btn-danger"><i class="icon-arrow-left "></i>Alışverişe Devam Et</a>
+
+@if (SessionPersister.account == null)
+{
+    <a class="btn btn-large pull-right btn-warning" onclick="Login();">Giriş Yap<i class="icon-arrow-right"></i></a>
+    <a class="btn btn-large pull-right btn-warning" style="margin-right:5px;background-color:green;" onclick="ConfirmOrder();">Üye Olmadan Siparişi Tamamla<i class="icon-arrow-right"></i></a>
+}
+else
+{
+    var account = SessionPersister.account;
+    if (account is Account && !((IDETicaret.Models.Account)account).IsAdmin)
+    {
+        <a class="btn btn-large pull-right btn-warning" style="background-color:green;" onclick="ConfirmOrder();">Siparişi Tamamla<i class="icon-save"></i></a>
+    }
+}
+
+<script type="text/javascript">
+
+    function TumunuSec(formName) {
+        var selectName = document.formName;
+        var checkNumber = selectName.length;
+
+        if (document.formName.tum.checked == false) {
+            for (i = 0; i < checkNumber; i++) {
+                selectName[i].checked = false;
+            }
+        } else {
+            for (i = 0; i < checkNumber; i++) {
+                selectName[i].checked = true;
+            }
+        }
+    }
+
+    function SepetGuncelle(stokkodu,miktar,text) {
+        //waitingDialog.show();
+
+        if (parseFloat($("#" + text).val()) + parseFloat(miktar) > 0) {
+            $.ajax({
+                url: '/Cart/SepetGuncelle',
+                data: "{ 'stokkodu': '" + stokkodu + "','miktar':'" + miktar + "'}",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    SepetBilgisi(); 
+                    $("#" + text).val(parseFloat($("#" + text).val()) + parseFloat(miktar));
+                    $("#Tutar_" + stokkodu.replace(".", "").replace(".", "")).html((parseFloat($("#Fiyat_" + stokkodu.replace(".", "").replace(".", "")).html().replace("₺", "")) * parseFloat($("#" + text).val())).toFixed(2));
+                   
+                        var table = document.getElementById('TableForm');
+                    var toplam = 0;
+                    for (var i = 1; i < table.rows.length; i++) {
+                        try {
+                            var fiyat = (table.rows[i].cells[5].textContent.trim());
+                            if (fiyat != null) {
+                                toplam += parseFloat(fiyat.replace("₺", ""));
+                            }
+                        } catch{
+                            ;
+                        }
+                    }
+                    $("#Toplam").html(parseFloat(toplam).toFixed(2));
+
+                },
+                error: function (msg) {
+                    alert(msg);
+                    //waitingDialog.hide();
+                }
+            });
+        }
+    }
+
+    function Login() {
+        var table = document.getElementById('TableForm');
+        var stokkodlari = "";
+
+        for (var i = 1; i < table.rows.length; i++) {
+            try {
+                var stokkodu = (table.rows[i].cells[0].getElementsByTagName("input")[0].value);
+                var secim = (table.rows[i].cells[0].getElementsByTagName("input")[1].checked);
+                if (stokkodu != null) {
+                    if (secim == true) {
+                        stokkodlari += stokkodu + "|";
+                        console.log(stokkodu + "-" + secim + "-true");
+                    }
+                }
+            } catch{
+                ;
+            }
+        }
+
+        $.ajax({
+            url: '/Cart/SepetStokSec',
+            data: "{ 'stokkodlari': '" + stokkodlari + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataFilter: function (data) { return data; },
+            success: function (data) {
+
+                window.location = "@Url.Content("~/Login")";
+
+            },
+            error: function (msg) {
+                //waitingDialog.hide();
+            }
+        });
+    }
+
+    function ConfirmOrder() {
+
+        var table = document.getElementById('TableForm');
+        var stokkodlari = "";
+
+        for (var i = 1; i < table.rows.length; i++) {
+            try {
+                var stokkodu = (table.rows[i].cells[0].getElementsByTagName("input")[0].value);
+                var secim = (table.rows[i].cells[0].getElementsByTagName("input")[1].checked);
+                if (stokkodu != null) {
+                    if (secim == true) {
+                        stokkodlari += stokkodu + "|";
+                        console.log(stokkodu + "-" + secim + "-true");
+                    }
+                }
+            } catch{
+                ;
+            }
+        }
+
+        $.ajax({
+            url: '/Cart/SepetStokSec',
+            data: "{ 'stokkodlari': '" + stokkodlari + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataFilter: function (data) { return data; },
+            success: function (data) {
+
+                window.location = "@Url.Content("~/Cart/ConfirmOrder")";
+
+            },
+            error: function (msg) {
+                //waitingDialog.hide();
+            }
+        });
+    }
+
+</script>

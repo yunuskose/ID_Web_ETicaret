@@ -1,0 +1,280 @@
+﻿@{
+    ViewBag.Title = "Arama";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+
+    int kategori1 = Convert.ToInt32(Request.RequestContext.RouteData.Values["kategori1"]);
+    int kategori2 = Convert.ToInt32(Request.RequestContext.RouteData.Values["kategori2"]);
+    int kategori3 = Convert.ToInt32(Request.RequestContext.RouteData.Values["kategori3"]);
+    int kategori4 = Convert.ToInt32(Request.RequestContext.RouteData.Values["kategori4"]);
+    string kategoriadi = Convert.ToString(Request.RequestContext.RouteData.Values["category_text"]);
+}
+
+@using IDETicaret.Models;
+@model List<Product>
+
+<div id="content" class="col-sm-9">
+
+    <div class="product-filter">
+        <div>
+            <form action="@Url.Action("Search","Product",new { kategori1=ViewBag.kategori1,kategori2=ViewBag.kategori2,kategori3=ViewBag.kategori3,kategori4=ViewBag.kategori4 })">
+                <input type="hidden" name="kategori1" id="kategori1" value="@ViewBag.kategori1" />
+                <input type="hidden" name="kategori2" id="kategori2" value="@ViewBag.kategori2" />
+                <input type="hidden" name="kategori3" id="kategori3" value="@ViewBag.kategori3" />
+                <input type="hidden" name="kategori4" id="kategori4" value="@ViewBag.kategori4" />
+                <table style="width:98%;">
+                    <tr>
+                        <td colspan="3"><h4>KATEGORİ İÇİ ARAMA</h4></td>
+                    </tr>
+                    <tr>
+
+                        <td style="padding:2px;">
+                            <input type="text" id="keyword" name="keyword" value="@ViewBag.keyword" class="form-control" />
+
+                        </td>
+                        <td style="padding:2px;">
+                            <button type="submit" class="btn">Ara</button>
+                        </td>
+                        <td style="padding:2px;">
+                            <strong>@(Model.Count == 0 ? 0 : Model[0].UrunSayisi )</strong> sonuç bulundu.
+
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    </div>
+    <div class="row products-category" id="ajax-main">
+
+        @foreach (var product in Model)
+        {
+            //@Url.SeoLinkCategories(pr,Request.QueryString["kategori1"],Request.QueryString["kategori2"],Request.QueryString["kategori3"],Request.QueryString["kategori4"])
+            Product pr = (Product)product;
+            Photo mainPhoto = pr.Photo.Where((p) => p.Main && p.Status).FirstOrDefault();
+            <div class="product-layout product-grid col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <div class="product-thumb">
+                    <div class="image"><a href="@Url.SeoLink_UrunDetayLinki(product)" style="height:170px;"><img src="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" alt="@product.Name" title="@product.Name" class="img-responsive" style="max-width:170px;max-height:170px;"></a></div>
+                    <div>
+                        <div class="caption" style="height:80px;">
+                            <h4><a href="@Url.SeoLink_UrunDetayLinki(product)" style="height:40px;">@product.Name</a></h4>
+                            <p class="description"><!--Açıklama--></p>
+                            <p class="price"> <span class="price-new">@product.Price.ToString("n") ₺</span> <!--<span class="price-old">$122.00</span> <span class="saving">-10%</span> <span class="price-tax">Ex Tax: $90.00</span> --></p>
+                        </div>
+                        <div class="button-group">
+                            <a>
+                                <button class="btn-primary" type="button" onClick="SepeteEkle('@product.Id');"> <span>Sepete Ekle</span></button>
+                            </a>
+                            <!--<div class="add-to-links">
+                                <button type="button" data-toggle="tooltip" title="" onClick="wishlist.add('42');" data-original-title="Add to Wish List"><i class="fa fa-heart"></i> <span>Add to Wish List</span></button>
+                                <button type="button" data-toggle="tooltip" title="" onClick="compare.add('42');" data-original-title="Compare this Product"><i class="fa fa-exchange"></i> <span>Compare this Product</span></button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div>
+        @{
+
+            int urunsayisi = Convert.ToInt32(Model[0].UrunSayisi);
+            int toplamsayfa = (urunsayisi / 20)+1;
+            string page = Convert.ToString(ViewBag.page);
+
+            if ((kategori1 > 0 || kategori2 > 0 || kategori3 > 0 || kategori4 > 0) && toplamsayfa > 0)
+            {
+
+                <a href="@Url.SeoLinkSolMenu4(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(),kategori4.ToString(), kategoriadi, page)" class="btn btn-danger"><<</a>
+                if (Convert.ToInt32(page) - 1 > 0)
+                {
+                    <a href="@Url.SeoLinkSolMenu4(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(),kategori4.ToString(), kategoriadi, (Convert.ToInt32(page) - 1).ToString())" class="btn btn-danger"><</a>
+                }
+                for (int i = 0; i < toplamsayfa; i++)
+                {
+                    if (i <= (Convert.ToInt32(page) + 5) && i >= (Convert.ToInt32(page) - 7))
+                    {
+                        if (page == (i + 1).ToString())
+                        {
+                            <span class="btn">@(i + 1)</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.SeoLinkSolMenu4(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(),kategori4.ToString(), kategoriadi, (i + 1).ToString())" class="btn btn-danger">@(i + 1)</a>
+                        }
+                    }
+                }
+                if (Convert.ToInt32(page) < toplamsayfa)
+                {
+                    <a href="@Url.SeoLinkSolMenu4(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(),kategori4.ToString(), kategoriadi, (Convert.ToInt32(page) + 1).ToString())" class="btn btn-danger">></a>
+                }
+                <a href="@Url.SeoLinkSolMenu4(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(),kategori4.ToString(), kategoriadi, toplamsayfa.ToString())" class="btn btn-danger">></a>
+                <a href="@Url.SeoLinkSolMenu4(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(),kategori4.ToString(), kategoriadi, toplamsayfa.ToString())" class="btn btn-danger">>></a>
+            }
+            else if (kategori3 > 0 && toplamsayfa > 0)
+            {
+
+                <a href="@Url.SeoLinkSolMenu3(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(), kategoriadi, page)" class="btn btn-danger"><<</a>
+                if (Convert.ToInt32(page) - 1 > 0)
+                {
+                    <a href="@Url.SeoLinkSolMenu3(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(), kategoriadi, (Convert.ToInt32(page) - 1).ToString())" class="btn btn-danger"><</a>
+                }
+                for (int i = 0; i < toplamsayfa; i++)
+                {
+                    if (i <= (Convert.ToInt32(page) + 5) && i >= (Convert.ToInt32(page) - 7))
+                    {
+                        if (page == (i + 1).ToString())
+                        {
+                            <span class="btn">@(i + 1)</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.SeoLinkSolMenu3(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(), kategoriadi, (i + 1).ToString())" class="btn btn-danger">@(i + 1)</a>
+                        }
+                    }
+                }
+                if (Convert.ToInt32(page) < toplamsayfa)
+                {
+                    <a href="@Url.SeoLinkSolMenu3(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(), kategoriadi, (Convert.ToInt32(page) + 1).ToString())" class="btn btn-danger">></a>
+                }
+                <a href="@Url.SeoLinkSolMenu3(kategori1.ToString(),kategori2.ToString(),kategori3.ToString(), kategoriadi, toplamsayfa.ToString())" class="btn btn-danger">>></a>
+            }
+            else if (kategori2 > 0 && toplamsayfa > 0)
+            {
+
+                <a href="@Url.SeoLinkSolMenu2(kategori1.ToString(),kategori2.ToString(), kategoriadi, page)" class="btn btn-danger"><<</a>
+                if (Convert.ToInt32(page) - 1 > 0)
+                {
+                    <a href="@Url.SeoLinkSolMenu2(kategori1.ToString(),kategori2.ToString(), kategoriadi, (Convert.ToInt32(page) - 1).ToString())" class="btn btn-danger"><</a>
+                }
+                for (int i = 0; i < toplamsayfa; i++)
+                {
+                    if (i <= (Convert.ToInt32(page) + 5) && i >= (Convert.ToInt32(page) - 7))
+                    {
+                        if (page == (i + 1).ToString())
+                        {
+                            <span class="btn">@(i + 1)</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.SeoLinkSolMenu2(kategori1.ToString(),kategori2.ToString(), kategoriadi, (i + 1).ToString())" class="btn btn-danger">@(i + 1)</a>
+                        }
+                    }
+                }
+                if (Convert.ToInt32(page) < toplamsayfa)
+                {
+                    <a href="@Url.SeoLinkSolMenu2(kategori1.ToString(),kategori2.ToString(), kategoriadi, (Convert.ToInt32(page) + 1).ToString())" class="btn btn-danger">></a>
+                }
+                <a href="@Url.SeoLinkSolMenu2(kategori1.ToString(),kategori2.ToString(), kategoriadi, toplamsayfa.ToString())" class="btn btn-danger">>></a>
+            }
+            else if (kategori1 > 0 && toplamsayfa > 0)
+            {
+                <a href="@Url.SeoLinkSolMenu1(kategori1.ToString(), kategoriadi, page)" class="btn btn-danger"><<</a>
+                if (Convert.ToInt32(page) - 1 > 0)
+                {
+                    <a href="@Url.SeoLinkSolMenu1(kategori1.ToString(), kategoriadi, (Convert.ToInt32(page) - 1).ToString())" class="btn btn-danger"><</a>
+                }
+                for (int i = 0; i < toplamsayfa; i++)
+                {
+                    if (i <= (Convert.ToInt32(page) + 5) && i >= (Convert.ToInt32(page) - 7))
+                    {
+                        if (page == (i + 1).ToString())
+                        {
+                            <span class="btn">@(i + 1)</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.SeoLinkSolMenu1(kategori1.ToString(), kategoriadi, (i + 1).ToString())" class="btn btn-danger">@(i + 1)</a>
+                        }
+                    }
+                }
+                if (Convert.ToInt32(page) < toplamsayfa)
+                {
+                    <a href="@Url.SeoLinkSolMenu1(kategori1.ToString(), kategoriadi, (Convert.ToInt32(page) + 1).ToString())" class="btn btn-danger">></a>
+                }
+                <a href="@Url.SeoLinkSolMenu1(kategori1.ToString(), kategoriadi, toplamsayfa.ToString())" class="btn btn-danger">>></a>
+            }
+
+        }
+    </div>
+    <div id="load" style="display:none;">
+        Yükleniyor...
+    </div>
+
+
+</div>
+
+
+@section Scripts
+{
+
+
+    @if (false)
+    {
+        <script type="text/javascript">
+
+        var pageNo = 2;
+        var isPageLoad = true;
+        var Calisiyor = false;
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + 300 >= $(document).height() - $(window).height()) {
+                if (isPageLoad && Calisiyor == false) {
+                    Calisiyor = true;
+                    $("#load").show();
+                    $.ajax({
+                        url: '/Product/Search2',
+                          data: {
+                            page: pageNo, keyword: "@ViewBag.keyword", kategori1: "@ViewBag.kategori1", kategori2: "@ViewBag.kategori2", kategori3: "@ViewBag.kategori3", kategori4: "@ViewBag.kategori4" },
+                      success: function (data) {
+                            if ($.trim(data) != '') {
+                                $("#ajax-main").append(data);
+                                pageNo++;
+                            } else {
+                                isPageLoad = false;
+                            }
+                            $("#load").hide();
+                            Calisiyor = false;
+                        }
+                    });
+                }
+            }
+        });
+
+        </script>
+    }
+}
+
+<script type="text/javascript">
+    function SepeteEkle(id_) {
+        $.ajax({
+            url: '/Cart/BuyJquery',
+            data: {
+                id: id_, quantity: 1
+            },
+            success: function (data) {
+                SepetBilgisi();
+                swal({
+                    title: "Seçtiğiniz ürün sepete eklenmiştir.",
+                    type: "success",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

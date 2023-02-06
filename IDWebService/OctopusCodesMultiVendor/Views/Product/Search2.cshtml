@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Arama";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@using IDETicaret.Models;
+@model List<Product>
+
+<div id="content" class="col-sm-9">
+
+
+    <div class="product-filter">
+        <div class="row">
+            <div class="col-md-12" style="text-align:right;">
+                <strong> @ViewBag.keyword</strong>
+
+                 için <strong>@(Model.Count == 0 ? 0 : Model[0].UrunSayisi )</strong> sonuç bulundu.
+            </div>
+            <!--
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group input-group input-group-sm">
+                    <label class="input-group-addon" for="input-sort">Sort By:</label>
+                    <select id="input-sort" class="form-control">
+                        <option value="" selected="selected">Default</option>
+                        <option value="">Name (A - Z)</option>
+                        <option value="">Name (Z - A)</option>
+                        <option value="">Price (Low &gt; High)</option>
+                        <option value="">Price (High &gt; Low)</option>
+                        <option value="">Rating (Highest)</option>
+                        <option value="">Rating (Lowest)</option>
+                        <option value="">Model (A - Z)</option>
+                        <option value="">Model (Z - A)</option>
+                    </select>
+                </div>
+            </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="form-group input-group input-group-sm">
+                            <label class="input-group-addon" for="input-sort">Show:</label>
+                            <select id="input-limit" class="form-control">
+                                <option value="" selected="selected">20</option>
+                                <option value="">25</option>
+                                <option value="">50</option>
+                                <option value="">75</option>
+                                <option value="">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    -->
+        </div>
+    </div>
+    <div class="row products-category" id="ajax-main">
+
+        @foreach (var product in Model)
+        {
+            Product pr = (Product)product;
+            Photo mainPhoto = pr.Photo.Where((p) => p.Main && p.Status).FirstOrDefault();
+            <div class="product-layout product-grid col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="product-thumb">
+                    <div class="image"><a href="@Url.Action("Detail", "Product", new { id = product.Id, kategori1=Request.QueryString["kategori1"], kategori2 = Request.QueryString["kategori2"], kategori3 = Request.QueryString["kategori3"], kategori4 = Request.QueryString["kategori4"] })" style="height:170px;"><img src="https://ozerdemmotosiklet.com/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" alt="@product.Name" title="@product.Name" class="img-responsive" style="max-width:170px;max-height:170px;"></a></div>
+                    <div>
+                        <div class="caption" style="height:80px;">
+                            <h4><a href="@Url.Action("Detail", "Product", new { id = product.Id, kategori1=Request.QueryString["kategori1"], kategori2 = Request.QueryString["kategori2"], kategori3 = Request.QueryString["kategori3"], kategori4 = Request.QueryString["kategori4"] })" style="height:40px;">@product.Name</a></h4>
+                            <p class="description"><!--Açıklama--></p>
+                            <p class="price"> <span class="price-new">@product.Price.ToString("n") ₺</span> <!--<span class="price-old">$122.00</span> <span class="saving">-10%</span> <span class="price-tax">Ex Tax: $90.00</span> --></p>
+                        </div>
+                        <div class="button-group">
+                            <a >
+                                <button class="btn-primary" type="button"  onclick="SepeteEkle('@product.Id');"> <span>Sepete Ekle</span></button>
+                            </a>
+                            <!--<div class="add-to-links">
+                                <button type="button" data-toggle="tooltip" title="" onClick="wishlist.add('42');" data-original-title="Add to Wish List"><i class="fa fa-heart"></i> <span>Add to Wish List</span></button>
+                                <button type="button" data-toggle="tooltip" title="" onClick="compare.add('42');" data-original-title="Compare this Product"><i class="fa fa-exchange"></i> <span>Compare this Product</span></button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="load" style="display:none;">
+        Yükleniyor...
+    </div>
+
+
+
+</div>
+@section Scripts
+{
+
+
+
+    <script type="text/javascript">
+        var pageNo = 2;
+        var isPageLoad = true;
+        var Calisiyor = false;
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + 300 >= $(document).height() - $(window).height()) {
+                if (isPageLoad && Calisiyor == false) {
+                    Calisiyor = true;
+                    $("#load").show();
+                    $.ajax({
+                        url: '/Product/Search2',
+                        data: { page: pageNo, keyword: "@ViewBag.keyword", kategori1: 0, kategori2: 0, kategori3: 0, kategori4: 0 },
+                        success: function (data) {
+                            if ($.trim(data) != '') {
+                                $("#ajax-main").append(data);
+                                pageNo++;
+                            } else {
+                                isPageLoad = false;
+                            }
+                            $("#load").hide();
+                            Calisiyor = false;
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
+}
+
+<script type="text/javascript">
+    function SepeteEkle(id_) {
+        $.ajax({
+            url: '/Cart/BuyJquery',
+            data: {
+                id: id_, quantity: 1
+            },
+            success: function (data) {
+                SepetBilgisi();
+                swal({
+                    title: "Seçtiğiniz ürün sepete eklenmiştir.",
+                    type: "success",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+            }
+        });
+
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

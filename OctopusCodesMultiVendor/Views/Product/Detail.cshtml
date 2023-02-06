@@ -1,0 +1,192 @@
+﻿@{
+}
+
+@using IDETicaret.Models;
+
+@{
+    Product product = (Product)ViewBag.product;
+    Photo mainPhoto = product.Photo.SingleOrDefault(p => p.Main && p.Status);
+
+    ViewBag.Title = product.Name;
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+
+<!-- Breadcrumb
+============================================= -->
+<ul class="breadcrumb">
+    <li style="padding-left:10px;"><a href="@Url.Content("~/")" style="font-size:13px;" title="Ana Sayfa">ANA SAYFA</a></li>
+    <li><a href="@Url.SeoLinkSolMenu1(product.Category.Id.ToString(),product.Category.Name,"1")" style="font-size:13px;" title="@product.Category.Name">@product.Category.Name</a></li>
+    <li><a href="@Url.SeoLinkSolMenu2(product.Category.Id.ToString(),product.Category1.Id.ToString(),product.Category1.Name,"1")" style="font-size:13px;" title="@product.Category.Name">@product.Category1.Name</a></li>
+    @(product.Category2 == null ? Html.Raw("") : Html.Raw("<li><a href=\"" + Url.SeoLinkSolMenu3(product.Category.Id.ToString(), product.Category1.Id.ToString(), product.Category2.Id.ToString(), product.Category2.Name, "1") + "\" style=\"font-size:13px;\" title=\"" + product.Category2.Name + "\">" + product.Category2.Name + "</a></li>"))
+    @(product.Category3 == null ? Html.Raw("") : Html.Raw("<li><a href=\"" + Url.SeoLinkSolMenu4(product.Category.Id.ToString(), product.Category1.Id.ToString(), product.Category2.Id.ToString(), product.Category3.Id.ToString(), product.Category3.Name, "1") + "\" style=\"font-size:13px;\"  title=\"" + product.Category3.Name + "\">" + product.Category3.Name + "</a></li>"))
+</ul><!-- Breadcrumb End-->
+
+<div class="row">
+
+    <div id="content" class="col-sm-8">
+
+        <!-- Heading
+        ============================================= -->
+
+
+        <div class="row product-info">
+            <div class="col-sm-6">
+                <div class="image @(Request.Browser.IsMobileDevice == false ? "easyzoom easyzoom--adjacent easyzoom--with-thumbnails" : "thumbnails") ">
+                    <a href="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" id="ResimUrl" name="ResimUrl">
+                        <img class="img-responsive" id="zoom_01" name="zoom_01" src="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" title="@product.Name" alt="@product.Name" data-zoom-image="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" />
+                    </a>
+                </div>
+                <div class="center-block text-center"><span class="zoom-gallery"><i class="fa fa-search"></i> Büyütmek için resmin üzerine gelin</span></div>
+                <div class="image-additional thumbnails" " id="gallery_01">
+                    @if (product.Photo != null && product.Photo.Count > 0)
+                    {
+                        foreach (var photo in product.Photo)
+                        {
+                            <a class="thumbnail" data-standard="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@photo.Name" data-zoom-image="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@photo.Name" data-image="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@photo.Name" title="@photo.Name" onclick="ResimDegistir('@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@photo.Name');">
+                                <img src="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@photo.Name" title="@photo.Name" alt="@photo.Name" />
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <ul class="list-unstyled description">
+                    <li><h1 class="title">@product.Name</h1></li>
+                    <li><h2 style="font-size:12px;"><b>Ürün Kodu : </b> <a href="#">@product.Code</a></h2></li>
+
+                    <!--<li><b>Stok Durumu:</b> <span class="instock">(product.Quantity > 0 ? "Stokta Var" : "Stokta Yok")</span></li>-->
+                </ul>
+                <ul class="price-box">
+                    <li class="price" style="float:left;"><!--<span class="price-old">$1,202.00</span>--> <span class="real">@product.Price.ToString("n") ₺</span></li>
+                    <li class="price" style="float:left;margin-left:10px;">
+                        @if (product.OzelKod1 == "ÖZERDEM")
+                        {
+                            <img src="@Url.Content("~/Content/yu.png")" alt="Yerli Üretim" height="48px;" />
+                        }
+                    </li>
+                </ul>
+                <div id="product">
+                    <div class="cart">
+                        <div>
+                            <form action="@Url.Action("Buy", "Cart", new { id = product.Id })" method="get">
+                                <div class="qty">
+                                    <input type="hidden" name="ProductID" id="ProductID" value="@product.Id" />
+                                    <label class="control-label" for="input-quantity">Miktar</label>
+                                    <a class="qtyBtn mines" href="javascript:void(0);" title="Eksilt"><i class="fa fa-minus"></i></a>
+                                    <div style="text-align:center;">
+                                        <input type="text" name="quantity" value="1" size="2" id="input-quantity" class="form-control" />
+                                        <br /> <span>@product.OlcuBirimi</span>
+                                    </div>
+                                    <a class="qtyBtn plus" href="javascript:void(0);" title="Artır"><i class="fa fa-plus"></i></a>
+                                    <br />
+
+
+                                    <div class="clear"></div>
+                                </div>
+                                @if (product.Status)
+                                {
+                                    <button type="button" id="button-cart" class="btn btn-primary btn-lg" onclick="SepeteEkle();">Sepete Ekle</button>
+                                }
+                                else
+                                {
+                                    <span style="font-size:18px;color:red;">Üzgünüz, bu ürün tükenmiştir</span>
+                                }
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-description" data-toggle="tab" title="Açıklama">Açıklama</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-description" class="tab-pane active">
+                <div>
+                    <p> @Html.Raw(product.Description)   </p>
+
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <h4>Benzer Ürünler</h4>
+        <div class="row products-category product_tab_grid">
+            @foreach (Product product2 in ((List<Product>)ViewBag.relatedProducts))
+            {
+                Product pr = (Product)product2;
+
+                <div class="product-layout">
+                    <div class="product-thumb">
+                        <div class="image"><a href="@Url.SeoLink_UrunDetayLinki(product2)" style="height:170px;"><img src="@(System.Configuration.ConfigurationManager.AppSettings["resimurlsite"])/Resimler/@(pr.Photo.Where((p1) => p1.Main && p1.Status).Count() > 0 ? pr.Photo.Where((p1) => p1.Main && p1.Status).FirstOrDefault().Name : "no-image.png")" alt="@product2.Vendor.Name" title="@product2.Vendor.Name" class="img-responsive" style="max-width:170px;max-height:170px;" /></a></div>
+                        <div class="caption">
+                            <h4><a href="@Url.SeoLink_UrunDetayLinki(product2)" style="height:40px;">@product2.Name</a></h4>
+                            <p class="price"> <span class="price-new">@product2.Price.ToString("n") ₺</span> <!--<span class="price-old">122.00 ₺</span> <span class="saving">-10%</span>--> </p>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-primary" type="button" onclick="SepeteEkle2('@product2.Id');"><span>Sepete Ekle</span></button>
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+
+    </div><!--Middle Part End-->
+
+</div>
+
+<script type="text/javascript">
+    function SepeteEkle() {
+        $.ajax({
+            url: '/Cart/BuyJquery',
+            data: {
+                id: $("#ProductID").val(), quantity: $("#input-quantity").val()
+            },
+            success: function (data) {
+                SepetBilgisi();
+                swal({
+                    title: "Seçtiğiniz ürün sepete eklenmiştir.",
+                    type: "success",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+    function SepeteEkle2(id) {
+        $.ajax({
+            url: '/Cart/BuyJquery',
+            data: {
+                id: id, quantity: 1
+            },
+            success: function (data) {
+                SepetBilgisi();
+                swal({
+                    title: "Seçtiğiniz ürün sepete eklenmiştir.",
+                    type: "success",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+            }
+        });
+
+    }
+
+    function ResimDegistir(resimyolu) {
+        $("#ResimUrl").attr("href", resimyolu);
+        $("#zoom_01").attr("src", resimyolu);
+        $("#zoom_01").attr("data-zoom-image", resimyolu);
+        $(".easyzoom-flyout img").attr("src", resimyolu);
+    }
+</script>
+
+
+

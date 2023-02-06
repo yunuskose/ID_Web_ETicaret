@@ -1,0 +1,64 @@
+﻿@using IDETicaret.Models;
+@model List<Card>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+}
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Sepet Listesi (Üye olan kullanıcılar için geçerli)</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible">
+                        @TempData["error"]
+                    </div>
+                }
+                <div class="box-body">
+                    <div id="example1_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1"
+                                       class="table table-bordered table-hover table-striped dataTable">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="no-sort">Id</th>
+                                            <th class="no-sort">Müşteri</th>
+                                            <th class="no-sort">Stok Adı</th>
+                                            <th class="no-sort">Miktar</th>
+                                            <th class="no-sort">Tarih</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (IDETicaret.Models.Card order in Model)
+                                        {
+                                        <tr>
+                                            <td>@order.Id</td>
+                                            <td>@order.Account.FullName</td>
+                                            <td>@order.Product.Name</td>
+                                            <td>@order.Quantity</td>
+                                            <td>@order.CDate</td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

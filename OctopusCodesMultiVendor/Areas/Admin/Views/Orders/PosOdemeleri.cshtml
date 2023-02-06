@@ -1,0 +1,82 @@
+﻿@using IDETicaret.Models;
+@model List<IDETicaret.Models.PosOdemeleri>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+}
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Pos Ödemeleri (Tümü)</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible">
+                        @TempData["error"]
+                    </div>
+                }
+                <div class="box-body">
+                    <div id="example1_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="no-sort">Id</th>
+                                            <th class="no-sort">Kullanıcı</th>
+                                            <th class="no-sort">Tarih</th>
+                                            <th class="no-sort">İsim</th>
+                                            <th class="no-sort">Sonuç</th>
+                                            <th class="no-sort">Tutar</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (IDETicaret.Models.PosOdemeleri order in Model)
+                                        {
+                                            string _id_ = ocmde.Orders.Where((o)=>o.OrderID == order.GercekSiparisNo).FirstOrDefault().Id.ToString();
+                                            <tr>
+                                                <td>
+                                                    @if (order.procreturncode == "00" || order.response == "Approved")
+                                                    {
+                                                        <a href="@Url.Action("Detail","Orders",new { Area = "Admin", id = _id_ })">@(_id_ + " - " + order.orderid + " / " + order.bankaAd)</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        Html.Raw(order.bankaAd);
+                                                    }
+                                                </td>
+                                                <td>@order.UserName</td>
+                                                <td>@Convert.ToDateTime(order.KayitTarihi).ToString("dd-MM-yyyy")</td>
+                                                <td>@order.Isim</td>
+                                                <td>@order.procreturncode @order.response</td>
+                                                <td style="color:@(order.procreturncode == "00" || order.response == "Approved" ? "green" : "red");font-size:15px;">@order.txnamount ₺</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7"><span style="color:red;"> @order.errmsg </span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

@@ -1,0 +1,74 @@
+﻿@model IDETicaret.Models.Page
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div id="content" class="col-sm-12">
+
+
+
+    <br /><br />
+    <h3> BANKA HESAP BİLGİLERİ - <span style="color:red;">@System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</span> adına</h3>
+
+    <p><br></p>
+    <table class="table" style="font-size:12px;">
+        <tbody>
+            <tr>
+                <td>
+                    <p style="line-height: 1.8;"><span style="text-decoration-line: underline;">BANKA ADI</span></p>
+                </td>
+                <td><span style="text-decoration-line: underline;">ŞUBE KODU</span></td>
+                <td><span style="text-decoration-line: underline;">HESAP NO</span></td>
+                <td><span style="text-decoration-line: underline;">IBAN &nbsp;NO</span></td>
+            </tr>
+            <tr>
+                <td>İŞ BANKASI AYYILDIZ CAD. BÜSAN ŞUBESİ</td>
+                <td>4514</td>
+                <td>031459</td>
+                <td>TR :46 0006 4000 0014 5140 0314 59</td>
+            </tr>
+            <tr>
+                <td>AKBANK BÜSAN ŞUBESİ</td>
+                <td>922</td>
+                <td>11389</td>
+                <td>TR :85 0004 6009 2288 8000 0113 89</td>
+            </tr>
+            <tr>
+                <td>GARANTİ FEVZİ ÇAKMAK MAH. ŞUBESİ</td>
+                <td>1586</td>
+                <td>6697194</td>
+                <td>TR :94 0006 2001 5860 0006 6971 94</td>
+            </tr>
+            <tr>
+                <td>HALKBANK BÜSAN ŞUBESİ</td>
+                <td>9518</td>
+                <td>09002361</td>
+                <td>TR :03 0001 2009 5180 0009 0023 61</td>
+            </tr>
+            <tr>
+                <td>YAPI KREDİ BÜSAN ŞUBESİ</td>
+                <td>1067</td>
+                <td>87338214</td>
+                <td>TR :38 0006 7010 0000 0087 3382 14</td>
+            </tr>
+            <tr>
+                <td>VAKIFBANK BÜSAN ŞUBESİ</td>
+                <td>419</td>
+                <td>001 5800 7309 0287 06</td>
+                <td>TR :97 0001 5001 5800 7309 0287 06</td>
+            </tr>
+            <tr>
+                <td>PTT POSTA ÇEK HESABI</td>
+                <td>-------</td>
+                <td>1101655</td>
+                <td>HÜSEYİN ÖZERDEM ADINA</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+</div>

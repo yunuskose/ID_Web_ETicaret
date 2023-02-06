@@ -1,0 +1,216 @@
+/*-----------------------------------------------------------------------------------
+
+    Template Name: Bigshop eCommerce HTML Template
+    Author: Harnish Design
+    Author URI: http://harnishdesign.net
+
+-----------------------------------------------------------------------------------*/
+
+@media (max-width: 1199px) {
+/**===== Layout =====**/
+.main-wrapper{padding:0 20px;}
+#productRelated .relProduct{width:19%!important;}
+#column-right .product-grid .product-details, #column-left .product-grid .product-details{width:152px;}
+}
+
+@media only screen and (min-width:992px) {
+/**===== footer =====**/
+#footer ul, .left-top {display:block!important;}
+}
+
+@media (max-width: 991px) {
+body {-webkit-text-size-adjust: auto;}
+/**===== Layout =====**/
+.main-wrapper{margin:0px; padding:0 10px;}
+.wrapper-box{margin:0 auto!important;}
+.wrapper-box #header .header-row, .wrapper-box #footer .fpart-second{border-radius:0px;}
+
+/**===== Header =====**/
+#header #logo{padding-top:0px!important;}
+#header .header-row .inner2{padding:0;}
+.table-container .col-table-cell{float:left; vertical-align:top;}
+.drop-icon{width:35px; height:25px; line-height:21px; text-align:center; font-size:14px; cursor:pointer; float:left; display:inline-block; color:#666;}
+.left-top{min-width:160px; background:#fff; border-radius:4px; position:absolute; top:25px; z-index:99; right:0; padding:5px 0; display:none; box-shadow:0 0px 12px rgba(0, 0, 0, 0.176);}
+.left-top #language, #currency{float:none; display:block;}
+.left-top #language > .btn-group, #currency > .btn-group{display:block;}
+#language span, #currency span{line-height:30px;}
+#header .links{float:none;}
+#header .links > ul > li{float:none; display:block; line-height:30px;}
+#header .htop{margin-bottom:0px;}
+
+/**===== Menu =====**/
+#menu .navbar-header{float:none;}
+#menu .navbar-nav{margin:0px;}
+#menu .navbar-header > span {text-transform:uppercase; font-size:15px; padding:0px 15px; height:40px; line-height:40px; text-align:left; margin:0; cursor: pointer; display:inline-block; color:#fff;}
+#menu .navbar-header > span > .fa{float:right; line-height:40px; font-size:14px;}
+#menu .nav > li > a{border:none;}
+#menu {padding:0; height:auto;}
+#menu .navbar-nav{text-align:left;}
+#menu .nav{padding:0; text-align:left; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);}
+#menu .nav > li, #menu.center .nav > li { float:none; padding:0px; display:block; height:auto;}
+#menu.center .navbar-nav {text-align: left;}
+#menu .nav > li > a{line-height:35px;}
+#menu .nav > li > div{position:relative;}
+#menu .nav > li > div > ul{display:block; width:auto;}
+#menu .nav > li ul + ul{padding-left:0px;}
+#menu .nav > li > .dropdown-menu ul > li{position:relative;}
+
+#menu .nav > li.mega-menu > div{width:100%;}
+#menu .nav > li.mega-menu.dropdown {position: relative;}
+
+#menu .nav > li.categories > div > .column > a > span, #menu .nav > li div > ul > li > a > span{display:none;}
+span.submore:after{display: block; position:absolute; right:0; top:2px; width: 30px; height:32px; line-height:30px; font-size:22px; text-align:center; cursor:pointer; z-index:1010; content:'+'; font-family:Arial, Helvetica, sans-serif; color:#fff;}
+span.submore.plus:after{content:'-';}
+#menu .nav > li > div > ul li span.submore:after, #menu .nav > li.categories > div > .column span.submore:after, #menu .nav > li.mega-menu > div > .column span.submore:after{color:#444;}
+
+#menu .nav > li.menu_brands.dropdown{position:relative;}
+
+#menu .nav > li.mega-menu > div{min-width:inherit; position:relative;}
+#menu .nav > li.mega-menu > div > .column{width:auto; display:block; margin:0;}
+#menu .nav > li.mega-menu > div > .column > div{display:none; position:relative;}
+#menu .nav > li.mega-menu > div > .column > div ul{display:block;}
+#menu .nav > li.mega-menu > div > .column a, #menu .nav > li > div > ul li a{width:auto; padding:7px 0; margin:0;}
+
+#menu .nav > li.sub:hover > a:after{display:none;}
+#menu .nav > li.mega-menu > .dropdown-menu li .dropdown-menu{margin-top: 0px;}
+#menu .nav > li > .dropdown-menu, #menu .nav > li > .dropdown-menu li .dropdown-menu {
+	box-shadow: none;
+	float: none;
+	width: 100%;
+	position: relative;
+	min-width: inherit;
+	margin-top: 0px;
+	margin-left: 0!important;
+	left: auto;
+	border: 0px none;
+}
+
+#menu .nav > li > .dropdown-menu ul{display:block; margin:0 15px;}
+
+/**===== Product Item for Left and Right Panel =====**/
+#column-right .product-layout .product-thumb .image, #column-left .product-layout .product-thumb .image{width:50px;}
+#column-right .product-layout .product-thumb .caption, #column-left .product-layout .product-thumb .caption{max-width:98px;}
+
+/**===== Fotter =====**/
+#footer .fpart-first{padding-bottom:0px;}
+#footer .column, #footer .contact,#footer .about_details {margin-bottom:15px;}
+#footer .contact ul li{float:left; width:30%;}
+#footer .contact ul li + li{margin:0 0 0 4%;}
+#footer .powered_text, #footer .social{float:none!important;}
+#footer .social{ text-align:center; padding:12px 0 0; margin:0px!important;}
+#footer .social a{float:none; display:inline-block;}
+#footer #powered{text-align:center; width:100%; line-height:normal; padding-top:15px; height:auto;}
+
+/**===== Product Page =====**/
+.product-list .left { width:auto; float:none;}
+.product-info > .left {float:none; margin-right:0px; }
+.product-info > .left + .right { margin-left:auto;}
+.product-info .image {float:none;}
+.mousetrap {width:99%!important;}
+#cloud-zoom-big{width:99%!important;}
+#wrap #zoom1 img{display:inline-block!important;}
+.product-info .image-additional { width:auto; margin-bottom:10px; max-width:none; }
+.product-info .image-additional a { display:inline-block; float:none; }
+
+/**===== Tabs =====**/
+#container .category-module h3{padding:0 0 30px 0; text-align:center;}
+.category-module .tabs{left:5px; right:auto;}
+.category-module .tabs li a{font-size:11px; padding:0 5px;}
+.category-module .tabs li a.selected{padding:0 5px;}
+.category-module .tabs li.active a{padding-bottom:2px; line-height:22px;}
+#productRelated .relProduct{width:24%!important;}
+.table-container .col-table-cell{padding:0px;}
+
+/**===== Side Blocks =====**/
+#custom_side_block, #facebook, #twitter_footer, #video_box {display:none; visibility:hidden;}
+
+/**===== Infographic =====**/
+.infographic-box .infographic-year{font-size:18px; right:-60px;}
+.infographic-box.pull-right .infographic-year{left:-60px;}
+
+/**===== Blog =====**/
+.side-item-blog .post-thumb .image{width:50px;}
+.side-item-blog .post-thumb .caption{margin-left:55px;}
+
+}
+
+@media only screen and (max-width:1025px){
+.product-thumb .button-group .add-to-links{margin-top:8px;}
+.product-thumb .button-group .add-to-links button{font-size:12px; padding:0 8px; margin:0 2px;}
+}
+
+@media (max-width: 767px) {
+/**===== Header =====**/
+#header #logo, #header .links_contact{text-align:center;}
+#header .header-row{padding:10px 0;}
+#header .links_contact{float:none!important;}
+#header #logo a img{display:inline-block;}
+#header #cart{text-align:center; margin-top:8px;}
+#header #cart .dropdown-menu{left:50%; margin-left:-210px;}
+
+/**===== Footer =====**/
+#footer .contact ul li{float:none; width:auto;}
+#footer .contact ul li + li{margin:12px 0 0 0;}
+#footer h5{margin:0px 0px 5px;}
+
+/**===== Product Page =====**/
+.zoomContainer {visibility: hidden;}
+
+/**===== Infographic =====**/
+.infographic-box, .infographic-box-inner{width:100%;}
+.infographic-inner{padding-bottom:10px;}
+.infographic-box.pull-right{margin-top:0px;}
+.infographic-box{padding-top:30px; margin-bottom:30px; text-align:center;}
+
+.infographic-box:after{display:none;}
+
+.infographic-box:before{right:50%; margin-right:-11px;}
+.infographic-box.pull-right:before{left:inherit;}
+
+.infographic-box .infographic-year{position:sticky; z-index:1; background:#fff; display:inline-block; font-size:18px; right:-60px; height:35px; line-height:35px; border-radius:2px; padding:0 15px; border:1px solid #ccc; margin:15px 0;}
+.infographic-box.pull-right .infographic-year{left:-60px;}
+
+}
+
+@media screen and (max-width:480px) {
+.htabs{padding-left:0;}
+.nav-tabs > li > a, .htabs a{font-size:11px; padding:7px 5px 6px 5px;}
+.product-info .cart div{float:none;}
+.product-info .cart #button-cart{margin-right:0px;}
+#header #cart .dropdown-menu{width:300px; margin-left:-150px;}
+#header #cart .dropdown-menu .img-thumbnail{max-width:none;}
+.product-tab .tabs li a{font-size:13px; padding-right:0px;}
+.product-tab .tabs li{margin-right:12px;}
+.product-info .price{font-size:20px;}
+
+/**===== Title for 404 Page =====**/
+.title-404 {
+	font-size:170px;
+	line-height: 1em;
+}
+
+/**===== Blog =====**/
+.post-comment .post-comment{margin-left:20px;}
+
+}
+
+
+/*====For Five Grid Columns====*/
+@media(min-width: 768px) {
+.col-sm-5ths {
+    width: 20%;
+    float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}

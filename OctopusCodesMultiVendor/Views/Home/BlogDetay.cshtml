@@ -1,0 +1,20 @@
+﻿@model IDETicaret.Models.Setting
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div id="content" class="col-sm-12">
+
+        <div>
+            <div ><h3>@Html.Raw(Model.Key)</h3></div>
+            <div>@Html.Raw(Model.Value)
+            </div>
+            <div>@Model.CDate</div>
+        </div>
+
+    
+
+
+
+
+</div>

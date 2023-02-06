@@ -1,0 +1,1059 @@
+﻿@model List<IDETicaret.Models.Card>
+<style type="text/css">
+    .ustKisim {
+        float: right;
+        height: 230px;
+        width: 250px;
+        padding: 10px;
+        border: 10px;
+        border-style: double;
+        border-color: green;
+        background-color: white;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 15px;
+        border-radius: 15px;
+    }
+
+    .ustKisim2 {
+        float: right;
+        width: 250px;
+        padding: 10px;
+        border: 10px;
+        border-style: double;
+        border-color: green;
+        background-color: white;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 15px;
+        border-radius: 15px;
+    }
+
+
+    .form-control {
+        background-color: #ffffff;
+        background-image: none;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        font-family: Arial, sans-serif;
+        -webkit-appearance: none;
+        color: #2c2c2c;
+        outline: 0;
+        height: 35px;
+        padding: 9px 12px;
+        line-height: normal;
+        font-size: 14px;
+        font-weight: normal;
+        vertical-align: middle;
+        min-height: 35px;
+        -webkit-transition: all 0.12s ease;
+        transition: all 0.12s ease;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-transition: background 0.2s linear 0s;
+        transition: background 0.2s linear 0s;
+    }
+</style>
+@using IDETicaret.Models;
+@{
+    ViewBag.Title = "ConfirmOrder";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+
+    List<Sehirler> sehirler = ViewBag.Sehirler as List<Sehirler>;
+
+    ETicaretEntities ocmde = new ETicaretEntities();
+    var websiteName = ocmde.Setting.Find(4).Value;
+
+    decimal GenelToplam = 0;
+    string Urun = "Ürün Adı           Miktar Fiyat Tutar<br/>";
+
+    if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            Urun += ((item.Product.Name + "                         ").Substring(0, 30)) + item.Quantity + " " + item.Product.Price + " " + (Convert.ToDecimal(item.Quantity) * Convert.ToDecimal(item.Product.Price)) + "<br/>";
+            GenelToplam += (Convert.ToDecimal(item.Quantity) * Convert.ToDecimal(item.Product.Price));
+        }
+    }
+
+}
+
+<div style="text-align:center;">
+    <img src="@Url.Content("~/Content/UserNew/sepetilerlemesi/asama3.png")" alt="@System.Configuration.ConfigurationManager.AppSettings["SiteDomain"]" /><br />
+    <span style="padding-right:80px;padding-left:80px;color:black;"><strong>Sepet</strong></span>
+    <span style="padding-right:80px;color:black;"><strong>Teslimat</strong></span>
+    <span style="padding-right:80px;color:black;"><strong>Ödeme</strong></span>
+    <span style="padding-right:80px;color:lightgray;"><strong>Onay</strong></span>
+    <hr />
+   
+</div>
+<div id="content" style="width:100%;font-size:20px;padding:10px;margin-top:0px;">
+
+
+    @if (ViewBag.Sonuc == null)
+    {
+        <div style="float:left;width:70%;">
+            <div class="col-xl-12">
+
+                <ul class="nav nav-pills nav-stacked flex-column">
+                    <li class="active" style="width:60%;float:left;"><a href="#tab_a" data-toggle="pill">Kredi Kartı / Banka Kartı ile Ödeme</a></li>
+                    <li style="width:40%;float:left;"><a href="#tab_b" data-toggle="pill">Hesaba Havale</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-12">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_a">
+                        <div style="float:right;"><i class="fas fa-lock"></i> <span style="font-size:10px;">Güvenli Ödeme</span></div>
+                        @using (Html.BeginForm("ConfirmOrder3", "Cart", null, FormMethod.Post, new { id = "MyForm", name = "MyForm" }))
+                        {
+
+                            <input type="hidden" name="AdSoyad" id="AdSoyad" value="@ViewBag.AdSoyad" />
+                            <input type="hidden" name="Il" id="Il" value="@ViewBag.Il" />
+                            <input type="hidden" name="Ilce" id="Ilce" value="@ViewBag.Ilce" />
+                            <input type="hidden" name="Adres" id="Adres" value="@ViewBag.Adres" />
+                            <input type="hidden" name="CepTelefonu" id="CepTelefonu" value="@ViewBag.CepTelefonu" />
+                            <input type="hidden" name="TCKimlikNo" id="TCKimlikNo" value="@ViewBag.TCKimlikNo" />
+                            <input type="hidden" name="AdresBasligi" id="AdresBasligi" value="@ViewBag.AdresBasligi" />
+                            <input type="hidden" name="BK" id="BK" value="@ViewBag.BK" />
+                            <input type="hidden" name="FirmaAdi" id="FirmaAdi" value="@ViewBag.FirmaAdi" />
+                            <input type="hidden" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.VergiDairesi" />
+                            <input type="hidden" name="VergiNumarasi" id="VergiNumarasi" value="@ViewBag.VergiNumarasi" />
+                            <input type="hidden" name="OdemeTipi" id="OdemeTipi" value="KK" />
+                            <input type="hidden" id="ip" name="ip" value="@Request.UserHostAddress" />
+
+                            <div class="panel-body">
+                                <div class="row" style="padding:15px;text-align:center;">
+                                    <br /><br />
+                                    <table>
+                                        <tr>
+                                            <td><br /></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:14px;padding-right:5px;text-align:right;">Banka</td>
+                                            <td style="text-align:left;">
+                                                <select id="bankaAdi" name="bankaAdi" style="width:270px;" class="field-icon" onchange="TaksitGetir();">
+                                                    <option value="Sec" selected>Lütfen Banka Seçiniz</option>
+                                                    <option value="IsBank">İş Bankası</option>
+                                                    <option value="Akbank">Akbank</option>
+                                                    <option value="Garanti">Garanti</option>
+                                                    <option value="IsBank">Diğer</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><br /></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:14px;padding-right:5px;text-align:right;">Taksit</td>
+                                            <td style="text-align:left;">
+                                                <select id="taksitSayisi" name="taksitSayisi" style="width:270px;" onchange="TaksitBilgisiGetir();"></select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><br /></td>
+                                            <td>
+                                                <table class="table table-bordered mbn" style="width:270px;">
+                                                    <thead id="taksitListe1" name="taksitListe1">
+
+                                                    </thead>
+                                                    <tbody id="taksitListe2" name="taksitListe2"></tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:14px;padding-right:5px;text-align:right;">Kart No </td>
+                                            <td style="text-align:left;">
+                                                <input id="kartNumarasi" type="text" name="kartNumarasi" placeholder="Kart Numarası" class="credit gui-input" style="width:375px;border-color:black;font-size:16px;" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><br /></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:14px;padding-right:5px;text-align:right;">Kart Üzerindeki İsim</td>
+                                            <td style="text-align:left;">
+                                                <input id="kartUzerindekiIsim" type="text" name="kartUzerindekiIsim" placeholder="" class="gui-input" style="width:375px;" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><br /></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:14px;padding-right:5px;text-align:right;">Son Kullanma Tarihi</td>
+                                            <td style="text-align:left;">
+                                                <label for="cardmonth">
+                                                    <select id="ay" name="ay">
+                                                        <option value="01">01</option>
+                                                        <option value="02">02</option>
+                                                        <option value="03">03</option>
+                                                        <option value="04">04</option>
+                                                        <option value="05">05</option>
+                                                        <option value="06">06</option>
+                                                        <option value="07">07</option>
+                                                        <option value="08">08</option>
+                                                        <option value="09">09</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                    </select>
+                                                </label>
+
+                                                <label>
+                                                    <select id="yil" name="yil">
+                                                        <option value="2019">2019</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                        <option value="2026">2026</option>
+                                                        <option value="2023">2027</option>
+                                                        <option value="2024">2028</option>
+                                                        <option value="2025">2029</option>
+                                                        <option value="2026">2030</option>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><br /></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:14px;padding-right:5px;text-align:right;">CVC2</td>
+                                            <td style="text-align:left;">
+                                                <input id="cvcNumarasi" type="text" name="cvcNumarasi" placeholder="" class="gui-input sayisalTextBox" maxlength="3" style="width:80px;" required><b class="tooltip tip-left-top"><em> Kartınızın arkasındaki 3 basamaklı sayıdır.</em></b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><br /></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="font-size:13px;"> <label class="form-control"><input type="checkbox" name="sozlesme" id="sozlesme" value="1" /> Ön bilgilendirme formunu ve mesafeli satış sözleşmesini kabul ediyorum.</label>  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><br /></td>
+                                            <td style="text-align:left;"><input class="btn btn-large btn-warning" style="background-color:limegreen;" type="button" name="name" value="ÖDEME YAP" onclick="FormuGonder();" /></td>
+                                        </tr>
+                                    </table>
+
+
+                                </div>
+
+                                <div style="float:right">
+                                    <p>
+                                        <table>
+                                            <tr>
+                                                <td style="vertical-align:middle;font-size:12px;">Geçerli kredi kartları:</td>
+                                                <td><img src="@Url.Content("~/Content/UserNew/images/visa.png")" alt="Visa" style="height:30px;" /></td>
+                                                <td><img src="@Url.Content("~/Content/UserNew/images/mastercard.png")" alt="Master Card" style="height:30px;" /></td>
+                                            </tr>
+                                        </table>
+
+
+
+                                    </p>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                    <div class="tab-pane" id="tab_b">
+                        @using (Html.BeginForm("ConfirmOrder3", "Cart", null, FormMethod.Post, new { id = "MyForm", name = "MyForm" }))
+                        {
+                            <input type="hidden" name="AdSoyad" id="AdSoyad" value="@ViewBag.AdSoyad" />
+                            <input type="hidden" name="Il" id="Il" value="@ViewBag.Il" />
+                            <input type="hidden" name="Ilce" id="Ilce" value="@ViewBag.Ilce" />
+                            <input type="hidden" name="Adres" id="Adres" value="@ViewBag.Adres" />
+                            <input type="hidden" name="CepTelefonu" id="CepTelefonu" value="@ViewBag.CepTelefonu" />
+                            <input type="hidden" name="TCKimlikNo" id="TCKimlikNo" value="@ViewBag.TCKimlikNo" />
+                            <input type="hidden" name="AdresBasligi" id="AdresBasligi" value="@ViewBag.AdresBasligi" />
+                            <input type="hidden" name="BK" id="BK" value="@ViewBag.BK" />
+                            <input type="hidden" name="FirmaAdi" id="FirmaAdi" value="@ViewBag.FirmaAdi" />
+                            <input type="hidden" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.VergiDairesi" />
+                            <input type="hidden" name="VergiNumarasi" id="VergiNumarasi" value="@ViewBag.VergiNumarasi" />
+                            <input type="hidden" name="OdemeTipi" id="OdemeTipi" value="HV" />
+                            <input type="hidden" id="ip" name="ip" value="@Request.UserHostAddress" />
+
+                            <h3> BANKA HESAP BİLGİLERİ</h3>
+
+
+                            <p>
+                            <p><br></p>
+                            <table class="table" style="font-size:12px;">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p style="line-height: 1.8;"><span style="text-decoration-line: underline;">BANKA ADI</span></p>
+                                        </td>
+                                        <td><span style="text-decoration-line: underline;">ŞUBE KODU</span></td>
+                                        <td><span style="text-decoration-line: underline;">HESAP NO</span></td>
+                                        <td><span style="text-decoration-line: underline;">IBAN &nbsp;NO</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>İŞ BANKASI AYYILDIZ CD.BÜSAN ŞB.</td>
+                                        <td>4514</td>
+                                        <td>031459</td>
+                                        <td>TR :46 0006 4000 0014 5140 0314 59</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AKBANK BÜSAN ŞB.</td>
+                                        <td>922</td>
+                                        <td>11389</td>
+                                        <td>TR :85 0004 6009 2288 8000 0113 89</td>
+                                    </tr>
+                                    <tr>
+                                        <td>GARANTİ FEVZİ ÇAKMAK MAH. ŞB.</td>
+                                        <td>1586</td>
+                                        <td>6697194</td>
+                                        <td>TR :94 0006 2001 5860 0006 6971 94</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HALKBANK BÜSAN ŞB.</td>
+                                        <td>9518</td>
+                                        <td>09002361</td>
+                                        <td>TR :03 0001 2009 5180 0009 0023 61</td>
+                                    </tr>
+                                    <tr>
+                                        <td>YAPI KREDİ BÜSAN ŞB.</td>
+                                        <td>1067</td>
+                                        <td>87338214</td>
+                                        <td>TR :38 0006 7010 0000 0087 3382 14</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PTT POSTA ÇEK HESABI</td>
+                                        <td>-------</td>
+                                        <td>1101655</td>
+                                        <td>HÜSEYİN ÖZERDEM 'ADINA</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><br></p>
+
+                            <input class="btn btn-large btn-warning" style="background-color:limegreen;" type="submit" name="name" value="SİPARİŞİ TAMAMLA" />
+                            </p>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div style="width:45%;margin:5px;float:left;">
+                    <span style="margin:3px;">Ön Bilgilendirme Formu</span>
+                    <textarea class="form-control" rows="20" style="width:100%;">@Html.Raw(ocmde.Setting.Where((x)=>x.Key == "Ön Bilgilendirme Formu").FirstOrDefault().Value
+            .Replace("[Isim]", ViewBag.AdSoyad+ " "+ ViewBag.FirmaAdi)
+            .Replace("[Tarih]", DateTime.Today.ToString("dd-MM-yyyy"))
+            .Replace("[Adres]", ViewBag.Adres)
+            .Replace("[Telefon]", ViewBag.CepTelefon)
+            .Replace("[EMail]", ViewBag.EMail)
+            .Replace("[TC]", ViewBag.TCKimlikNo)
+            .Replace("[Urun]", Urun)
+            .Replace("[GenelToplam]", GenelToplam.ToString())
+            .Replace("[OdemeSekli]", "Kredi Kartı/Havale")
+            .Replace("[TeslimatAdresi]", ViewBag.Adres)
+            .Replace("[KargoTutari]", "")
+            .Replace("[FaturaAdres]", ViewBag.Adres)
+            .Replace("[SiparisTarihi]", DateTime.Today.ToString("dd-MM-yyyy"))
+            )</textarea>
+                </div>
+                <div style="width:45%;margin:5px;float:right;">
+                    <span style="margin:3px;">Mesafeli Satış Sözleşmesi</span>
+                    <textarea class="form-control" rows="20" style="width:100%;">@Html.Raw(ocmde.Setting.Where((x)=>x.Key == "Satış Sözleşmesi").FirstOrDefault().Value
+            .Replace("[Isim]", ViewBag.AdSoyad + " " + ViewBag.FirmaAdi)
+            .Replace("[Tarih]", DateTime.Today.ToString("dd-MM-yyyy"))
+            .Replace("[Adres]", ViewBag.Adres)
+            .Replace("[Telefon]", ViewBag.CepTelefon)
+            .Replace("[EMail]", ViewBag.EMail)
+            .Replace("[TC]", ViewBag.TCKimlikNo)
+            .Replace("[Urun]", Urun)
+            .Replace("[GenelToplam]", GenelToplam.ToString())
+            .Replace("[OdemeSekli]", "Kredi Kartı/Havale")
+            .Replace("[TeslimatAdresi]", ViewBag.Adres)
+            .Replace("[KargoTutari]", "")
+            .Replace("[FaturaAdres]", ViewBag.Adres)
+            .Replace("[SiparisTarihi]", DateTime.Today.ToString("dd-MM-yyyy"))
+            )</textarea>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+        <div class="ustKisim" style="font-size: 20px;">
+            <span><strong>Sipariş Özeti</strong></span>
+            <br /><br />
+            <span style="font-size:15px;">Toplam <span id="SatinAlUrunSayisi" name="SatinAlUrunSayisi">0</span> ürün</span>
+            <br />
+            <br />
+            <table style="width:100%;">
+                <tr>
+                    <td><strong>Toplam</strong><br /></td>
+                    <td style="text-align:right;"><strong><span id="SatinAlTutar" name="SatinAlTutar">0,00</span></strong><br /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:14px;"><span style="font-size:12px;">(KDV Dahil)</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:14px;">
+                        <br />
+                        <strong>
+                            <span style="color:red;" id="KargoBilgisi" name="KargoBilgisi">Kargo ücreti alıcıya aittir.<a data-toggle="tooltip" data-placement="bottom" title="" style="background-color: gray;border-radius: 100px;padding-left:5px;padding-right:5px;color:white;">?</a></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <i class="icon-arrow-right"></i>
+                        <div style="text-align:center;padding-top:10px;">
+                            <a href="@Url.Content("~/")" style="font-size:14px;color:dodgerblue;">< Alışverişe Devam Et</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div id="MainContent_download1" style="display:none;" role="status" aria-hidden="true">
+                <img id="MainContent_Image2" src="uploads/loading.gif" style="height:100px;">
+            </div>
+            <!--</div>-->
+
+        </div>
+        <div class="ustKisim2" style="font-size: 20px;margin-top:5px;">
+            <span><strong>Sepetim</strong></span>
+            <br />
+            <br />
+            <table style="width:100%;">
+                @if (Model != null)
+                {
+                    foreach (IDETicaret.Models.Card item in Model)
+                    {
+                        <tr>
+                            <td style="font-size:14px;">
+                                <div style="height:70px;width:70px;float:left;">
+                                    <img src="https://ozerdemmotosiklet.com/Resimler/@(item.Product.Photo.Count > 0 ? item.Product.Photo.FirstOrDefault().Name : "no-image.png")" alt="@item.Product.Name" style="max-height:70px;width:65px;" />
+                                </div>
+                                <div style="float:left;width:130px;">
+
+                                    @(item.Product.Name)<br />
+                                    <strong><span>@(item.Quantity * item.Product.Price)₺</span></strong><br />
+                                    <hr />
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+            <!--</div>-->
+
+        </div>
+        <div class="ustKisim2" style="font-size: 20px;margin-top:5px;">
+            <span><strong>Adres</strong></span>
+            <br />
+            <br />
+            <table style="width:100%;">
+                @if (Model != null)
+                {
+                    string ilkodu = Convert.ToString(ViewBag.Il);
+                    <tr>
+                        <td style="font-size:14px;">
+                            <div style="float:left;width:200px;height:135px;margin:5px;padding:5px;color:black;">
+                                <span style="font-size:14px;"><strong>@ViewBag.AdSoyad</strong></span><br />
+                                <span style="font-size:12px;">@ViewBag.TCKimlikNo</span><br />
+                                <span style="font-size:12px;">@ViewBag.Adres</span><br />
+                                <span style="font-size:12px;">@(ocmde.Sehirler.Where((x) => x.Kod == ilkodu).FirstOrDefault() == null ? "" : ocmde.Sehirler.Where((x) => x.Kod == ilkodu).FirstOrDefault().Isim ) @ViewBag.Ilce</span><br />
+                                <span style="font-size:12px;">@ViewBag.CepTelefonu</span><br />
+                                <span style="font-size:12px;">@ViewBag.FirmaAdi <br /> @ViewBag.VergiDairesi  @ViewBag.VergiNumarasi</span><br />
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </table>
+            <br /><br />
+            <!--</div>-->
+
+        </div>
+        <br /><br />
+    }
+    else
+    {
+        if (Convert.ToString(ViewBag.Sonuc).Contains("ÖDEME GERÇEKLEŞMEDİ") == true)
+        {
+            if (Convert.ToString(Session["GarantiSonuc"]).Contains("İşlem Başarısız") == true)
+            {
+                <div style="font-size:25px;color:red;"><strong>@ViewBag.Sonuc</strong><br /> </div><br />
+            }
+            else
+            {
+                <div style="font-size:25px;color:orange;"><strong>Siparişiniz başarıyla oluşturuldu.</strong></div><br />
+                <div style="font-size:25px;color:orange;"><strong>ÖDEMENİZ GERÇEKLEŞTİRİLDİ</strong></div>
+                <br />
+                <div style="font-size:18px;">Stok kontrolü yapıldıktan sonra Müşteri Temsilcimiz sizinle irtibata geçerek, teslimat konusunda bilgilendirme yapacaktır.</div>
+               
+                <br /><br />
+                <a href="@Url.Action("Index", "Orders", null)">Siparişlerim Sayfası</a>
+                <br />
+                <br />
+                <div>@(websiteName).com'u tercih ettiğiniz için teşekkür ederiz.</div>
+                <br />
+                <br /><br />
+                <div>İrtibat No : 0(332) 345 47 22 - 23</div>
+                <div>GSM : 0(555) 989 04 76</div>
+            }
+        }
+        else
+        {
+            if (Convert.ToString(Session["GarantiSonuc"]).Contains("İşlem Başarısız") == true)
+            {
+                <div style="font-size:25px;color:red;"><strong>@ViewBag.Sonuc</strong><br /> <br />@Session["GarantiSonuc"]</div><br />
+            }
+            else
+            {
+                <div style="font-size:25px;color:orange;"><strong>Siparişiniz başarıyla oluşturuldu.</strong></div><br />
+                <div style="font-size:25px;color:orange;"><strong>ÖDEMENİZ GERÇEKLEŞTİRİLDİ</strong></div>
+                <br />
+                <div style="font-size:18px;">Stok kontrolü yapıldıktan sonra Müşteri Temsilcimiz sizinle irtibata geçerek, teslimat konusunda bilgilendirme yapacaktır.</div>
+                <br />
+                @Session["GarantiSonuc"]
+                <br /><br />
+                <a href="@Url.Action("Index", "Orders", null)">Siparişlerim Sayfası</a>
+                <br />
+                <br />
+                <div>@(websiteName).com'u tercih ettiğiniz için teşekkür ederiz.</div>
+                <br />
+                <br /><br />
+                <div>İrtibat No : 0(332) 345 47 22 - 23</div>
+                <div>GSM : 0(555) 989 04 76</div>
+            }
+        }
+    }
+
+
+
+    @section scripts {
+
+        <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-select2/select2.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/dropzone/dropzone.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/jquery-autonumeric/autoNumeric.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Content/Confirm/assets/plugins/jquery-inputmask/jquery.inputmask.min.js")"></script>
+        <script src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Content/Confirm/assets/plugins/summernote/js/summernote.min.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Content/Confirm/assets/plugins/moment/moment.min.js")"></script>
+        <script src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-daterangepicker/daterangepicker.js")"></script>
+        <script src="@Url.Content("~/Content/Confirm/assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js")"></script>
+        <script src="@Url.Content("~/Content/Confirm/assets/js/form_elements.js")" type="text/javascript"></script>
+
+
+        <script type="text/javascript">
+            $("#TCKimlikNo").on("keypress", function (event) {
+                if (event.keyCode != 8 && event.keyCode != 0 && (event.keyCode < 48 || event.keyCode > 57))
+                    return false;
+            });
+            $("#VergiNumarasi").on("keypress", function (event) {
+                if (event.keyCode != 8 && event.keyCode != 0 && (event.keyCode < 48 || event.keyCode > 57))
+                    return false;
+            });
+            $("#VergiDairesi").on("keypress", function (event) {
+                if (event.keyCode != 8 && event.keyCode != 0 && (event.keyCode < 48 || event.keyCode > 57)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            function FaturaKontrolYap() {
+                if ($("#BK").val() == "B") {
+                    $("#Kurumsal1").hide();
+                } else {
+                    $("#Kurumsal1").show();
+                }
+
+            }
+            (function ($) {
+                'use strict';
+                var getBaseURL = function () {
+                    var url = document.URL;
+                    return url.substr(0, url.lastIndexOf('/'));
+                }
+            })
+
+
+            function FormuGonder() {
+
+
+
+                if ($("#bankaAdi").val() == "Sec") {
+                    swal({
+                        title: "Lütfen banka seçiniz.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if ($("#kartUzerindekiIsim").val() == "") {
+                    swal({
+                        title: "Lütfen kart üzerindeki ismi yazınız.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if ($("#cvcNumarasi").val() == "") {
+                    swal({
+                        title: "Lütfen cvc numarasını yazınız.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+
+                var chkBox = document.getElementById('sozlesme');
+                if (chkBox.checked == false){
+                    swal({
+                        title: "Lütfen sözleşmeyi okuduğunuzu onaylayınız.",
+                        type: "error",
+                        timer: 1500,
+                        text: "",
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                document.getElementById("MyForm").submit();
+            }
+
+            function TaksitGetir() {
+                var secim = $("#bankaAdi").val();
+                var secimText = $("#bankaAdi").find('option:selected').text();
+
+                var list = $('#taksitSayisi');
+                list.find('option').remove();
+
+                if (true) {
+                    $.ajax({
+                        url: "/Cart/TaksitGetir",
+                        type: "POST",
+                        data: JSON.stringify({ 'banka': $("#bankaAdi").val() }),
+                        dataType: "json",
+                        traditional: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+
+                            if (secim == "IsBank" && secimText == "Diğer") {
+                                list.append('<option value="1">' + "Tek Çekim" + '</option>');
+                            }
+                            if (secim == "IsBank" && secimText != "Diğer") {
+
+                                for (var i = 0; i < data; i++) {
+                                    var x = i + 1;
+                                    if (i == 0) {
+                                        list.append('<option value="' + x + '">' + "Tek Çekim" + '</option>');
+                                    } else {
+                                        list.append('<option value="' + x + '">' + x + " Taksit" + '</option>');
+                                    }
+
+                                }
+                            }
+
+                            if (secim == "Garanti") {
+
+                                for (var i = 0; i < data; i++) {
+                                    var x = i + 1;
+                                    if (i == 0) {
+                                        list.append('<option value="' + x + '">' + "Tek Çekim" + '</option>');
+                                    } else {
+                                        list.append('<option value="' + x + '">' + x + " Taksit" + '</option>');
+                                    }
+
+                                }
+                            }
+
+                            if (secim == "Akbank") {
+
+                                for (var i = 0; i < data; i++) {
+                                    var x = i + 1;
+                                    if (i == 0) {
+                                        list.append('<option value="' + x + '">' + "Tek Çekim" + '</option>');
+                                    } else {
+                                        list.append('<option value="' + x + '">' + x + " Taksit" + '</option>');
+                                    }
+                                }
+                            }
+
+
+
+                        },
+                        error: function (data) {
+                            alert("Hata ! " + data.m);
+                        }
+                    });
+                }
+            }
+
+            function TaksitBilgisiGetir() {
+                var taksitsayisi = parseFloat($("#taksitSayisi").val());
+                var list = $('#taksitListe1');
+                list.find('tr').remove();
+                list.find('th').remove();
+                list.append('<tr><th style="padding-left:20px;font-size:13px;width:40%;">Taksit Sayısı</th><th style="width:70%;padding-left:20px;font-size:13px;">Ödenecek Tutar</th></tr>');
+                var list2 = $('#taksitListe2');
+                list2.find('tr').remove();
+                list2.find('td').remove();
+
+                var taksitTutari1 = 0;
+                $.ajax({
+                        url: '@Url.Content("~/Cart/OdemeSepetBilgisi/?OrderID=0")',
+                    success: function (data) {
+                        taksitTutari1 = parseFloat(data.Tutar.replace("₺", ""));
+
+                        var taksitTutari2 = parseFloat(taksitTutari1 / taksitsayisi);
+
+                        var taksitTutari3 = taksitTutari2.toFixed(2);
+                        for (var i = 0; i < taksitsayisi; i++) {
+                            var x = i + 1;
+                            if (taksitsayisi == 1) {
+                                list.append('<tr><td style="padding-left:20px;font-size:13px;">Tek Çekim</td><td style="padding-left:20px;font-size:13px;">' + taksitTutari3 + '₺</td></tr>');
+                            } else {
+                                list.append('<tr><td style="padding-left:20px;font-size:13px;">' + x + '. Taksit</td><td style="padding-left:20px;font-size:13px;">' + taksitTutari3 + '₺</td></tr>');
+                            }
+
+                        }
+                     }
+                });
+
+            }
+
+
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+
+
+
+
+        </script>
+
+        <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            //Multiselect - Select2 plug-in
+            $("#multi").val(["Jim", "Lucy"]).select2();
+
+            //Date Pickers
+            $('#datepicker-range, #datepicker-component, #datepicker-component2').datepicker();
+
+            $('#datepicker-embeded').datepicker({
+                daysOfWeekDisabled: "0,1"
+            });
+
+
+            $('#daterangepicker').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                format: 'MM/DD/YYYY h:mm A'
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+
+            /* Time picker
+             * https://github.com/m3wolf/bootstrap3-timepicker
+             */
+            $('#timepicker').timepicker().on('show.timepicker', function (e) {
+                var widget = $('.bootstrap-timepicker-widget');
+                widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
+                widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
+            });
+
+
+
+            // disabling dates
+            var nowTemp = new Date();
+            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+            //Input mask - Input helper
+            $(function ($) {
+                $("#date").mask("99/99/9999");
+                $("#Telefon").mask("(999) 999-9999");
+                $("#tin").mask("99-9999999");
+                $("#ssn").mask("999-99-9999");
+            });
+            //Autonumeric plug-in - automatic addition of dollar signs,etc controlled by tag attributes
+            $('.autonumeric').autoNumeric('init');
+
+            //Drag n Drop up-loader
+            $("div#myId").dropzone({
+                url: "/file/post"
+            });
+            //Single instance of tag inputs - can be initiated with simply using data-role="tagsinput" attribute in any input field
+            $('.custom-tag-input').tagsinput({
+
+            });
+
+            var myCustomTemplates = {
+                "font-styles": function (locale) {
+                    return '<li class="dropdown">' + '<a data-toggle="dropdown" class="btn btn-default dropdown-toggle ">' + '<span class="editor-icon editor-icon-headline"></span>' + '<span class="current-font">Normal</span>' + '<b class="caret"></b>' + '</a>' + '<ul class="dropdown-menu">' + '<li><a tabindex="-1" data-wysihtml5-command-value="p" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Normal</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h1" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">1</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h2" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">2</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h3" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">3</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h4" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">4</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h5" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">5</a></li>' + '<li><a tabindex="-1" data-wysihtml5-command-value="h6" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">6</a></li>' + '</ul>' + '</li>';
+                },
+                emphasis: function (locale) {
+                    return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="CTRL+B" data-wysihtml5-command="bold" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-bold"></i></a>' + '<a tabindex="-1" title="CTRL+I" data-wysihtml5-command="italic" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-italic"></i></a>' + '<a tabindex="-1" title="CTRL+U" data-wysihtml5-command="underline" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-underline"></i></a>' + '</div>' + '</li>';
+                },
+                blockquote: function (locale) {
+                    return '<li>' + '<a tabindex="-1" data-wysihtml5-display-format-name="false" data-wysihtml5-command-value="blockquote" data-wysihtml5-command="formatBlock" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-quote"></i>' + '</a>' + '</li>'
+                },
+                lists: function (locale) {
+                    return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="Unordered list" data-wysihtml5-command="insertUnorderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ul"></i></a>' + '<a tabindex="-1" title="Ordered list" data-wysihtml5-command="insertOrderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ol"></i></a>' + '<a tabindex="-1" title="Outdent" data-wysihtml5-command="Outdent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-outdent"></i></a>' + '<a tabindex="-1" title="Indent" data-wysihtml5-command="Indent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-indent"></i></a>' + '</div>' + '</li>'
+                },
+                image: function (locale) {
+                    return '<li>' + '<div class="bootstrap-wysihtml5-insert-image-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert image</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-image-url form-control" value="http://">' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary">Insert image</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert image" data-wysihtml5-command="insertImage" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-image"></i>' + '</a>' + '</li>'
+                },
+                link: function (locale) {
+                    return '<li>' + '<div class="bootstrap-wysihtml5-insert-link-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert link</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-link-url form-control" value="http://">' + '<label class="checkbox"> <input type="checkbox" checked="" class="bootstrap-wysihtml5-insert-link-target">Open link in new window</label>' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary" href="#">Insert link</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert link" data-wysihtml5-command="createLink" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-link"></i>' + '</a>' + '</li>'
+                },
+                html: function (locale) {
+                    return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="Edit HTML" data-wysihtml5-action="change_view" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-html"></i>' + '</a>' + '</div>' + '</li>'
+                }
+            }
+
+
+            $('#summernote').summernote({
+                height: 200,
+                onfocus: function (e) {
+                    $('body').addClass('overlay-disabled');
+                },
+                onblur: function (e) {
+                    $('body').removeClass('overlay-disabled');
+                }
+            });
+
+
+        });
+
+        $.ajax({
+                url: '@Url.Content("~/Cart/OdemeSepetBilgisi/?OrderID=0")',
+            success: function (data) {
+                    $("#SatinAlUrunSayisi").html(data.UrunSayisi);
+                    $("#SatinAlTutar").html(data.Tutar);
+                    $("#tutar").val(data.Tutar);
+                    if (parseFloat(data.Tutar.replace("₺", "").replace(",","")) > 300) {
+                        $("#KargoBilgisi").html("ÜCRETSİZ KARGO");
+                    }
+                }
+        });
+
+
+        </script>
+
+        <script type="text/javascript">
+            /**
+* Credit.js
+* Version: 1.0.0
+* Author: Ron Masas
+*/
+
+            (function ($) {
+
+                $.fn.extend({
+                    credit: function (args) {
+
+                        $(this).each(function () {
+
+
+                            // Set defaults
+                            var defaults = {
+                                auto_select: true
+                            }
+
+                            // Init user arguments
+                            var args = $.extend(defaults, args);
+
+                            // global var for the orginal input
+                            var credit_org = $(this);
+
+                            // Hide input if css was not set
+                            credit_org.css("display", "none");
+
+                            // Create credit control holder
+                            var credit_control = $('<div></div>', {
+                                class: "credit-input"
+                            });
+
+                            // Add credit cell inputs to the holder
+                            for (i = 0; i < 4; i++) {
+                                credit_control.append(
+                                    $("<input />", {
+                                        class: "credit-cell",
+                                        placeholder: "0000",
+                                        maxlength: 4
+                                    })
+                                );
+                            }
+
+                            // Print the full credit input
+                            credit_org.after(credit_control);
+
+                            // Global var for credit cells
+                            var cells = credit_control.children(".credit-cell");
+
+                            cells.keypress(function (event) {
+                                // Check if key code is a number
+                                if (event.keyCode > 31 && (event.keyCode < 48 || event.keyCode > 57)) {
+                                    // Key code is a number, the `keydown` event will fire next
+                                    return false;
+                                }
+                                // Key code is not a number return false, the `keydown` event will not fire
+                                return true;
+                            });
+
+                            cells.keydown(function (event) {
+                                // Check if key is backspace
+                                var backspace = (event.keyCode == 8);
+                                // Switch credit text length
+                                switch ($(this).val().length) {
+                                    case 4:
+                                        // If key is backspace do nothing
+                                        if (backspace) {
+                                            return;
+                                        }
+                                        // Select next credit element
+                                        var n = $(this).next(".credit-cell");
+                                        // If found
+                                        if (n.length) {
+                                            // Focus on it
+                                            n.focus();
+                                        }
+                                        break;
+                                    case 0:
+                                        // Check if key down is backspace
+                                        if (!backspace) {
+                                            // Key is not backspace, do nothing.
+                                            return;
+                                        }
+                                        // Select previous credit element
+                                        var n = $(this).prev(".credit-cell");
+                                        // If found
+                                        if (n.length) {
+                                            // Focus on it
+                                            n.focus();
+                                        }
+                                        break;
+                                }
+                            });
+
+                            // On cells focus
+                            cells.focus(function () {
+                                // Add focus class
+                                credit_control.addClass('c-focus');
+                            });
+
+                            // On focus out
+                            cells.blur(function () {
+                                // Remove focus class
+                                credit_control.removeClass('c-focus');
+                            });
+
+                            cells.keyup(function () {
+                                // Init card number var
+                                var card_number = '';
+                                // For each of the credit card cells
+                                cells.each(function () {
+                                    // Add current cell value
+                                    card_number = card_number + $(this).val();
+                                });
+                                // Set orginal input value
+                                credit_org.val(card_number);
+                            });
+
+
+                            if (args["auto_select"] === true) {
+                                // Focus on the first credit cell input
+                                credit_control.children(".credit-cell:first").focus();
+                            }
+
+                        });
+
+                    }
+                });
+
+            })(jQuery);
+
+
+            jQuery(function ($) {
+                $(".credit").credit();
+            });
+        </script>
+
+    }
+
+    <style type="text/css">
+        /**
+            * Credit.js
+            * Version: 1.0.0
+            * Author: Ron Masas
+            */
+
+        .credit {
+            display: none;
+        }
+
+        .credit-cell {
+            width: 24%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 18px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            border: none;
+            outline: none;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        .credit-input {
+            display: block;
+            width: 93%;
+            max-width: 400px;
+            height: 50px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        }
+
+        .c-focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+        }
+    </style>

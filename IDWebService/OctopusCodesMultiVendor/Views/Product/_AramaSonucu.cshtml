@@ -1,0 +1,67 @@
+﻿@using IDETicaret.Models;
+@model List<Product>
+@using PagedList.Mvc;
+
+
+@foreach (var product in Model)
+{
+    Product pr = (Product)product;
+    Photo mainPhoto = pr.Photo.SingleOrDefault(p => p.Main && p.Status);
+    <div class="product-layout product-grid col-lg-3 col-md-3 col-sm-4 col-xs-12">
+        <div class="product-thumb">
+            <div class="image"><a href="@Url.Action("Detail", "Product", new { id = product.Id, kategori1=Request.QueryString["kategori1"], kategori2 = Request.QueryString["kategori2"], kategori3 = Request.QueryString["kategori3"], kategori4 = Request.QueryString["kategori4"] })" style="height:170px;"><img src="https://ozerdemmotosiklet.com/Resimler/@(mainPhoto != null ? mainPhoto.Name : "no-image.png")" alt="@product.Name" title="@product.Name" class="img-responsive" style="max-width:170px;max-height:170px;"></a></div>
+            <div>
+                <div class="caption" style="height:80px;">
+                    <h4><a href="@Url.Action("Detail", "Product", new { id = product.Id, kategori1=Request.QueryString["kategori1"], kategori2 = Request.QueryString["kategori2"], kategori3 = Request.QueryString["kategori3"], kategori4 = Request.QueryString["kategori4"] })" style="height:40px;">@product.Name</a></h4>
+                    <p class="description"><!--Açıklama--></p>
+                    <p class="price"> <span class="price-new">@product.Price.ToString("n") ₺</span> <!--<span class="price-old">$122.00</span> <span class="saving">-10%</span> <span class="price-tax">Ex Tax: $90.00</span> --></p>
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" type="button" onclick="SepeteEkle('@product.Id');"> <span>Sepete Ekle</span></button>
+
+                    <!--<div class="add-to-links">
+                        <button type="button" data-toggle="tooltip" title="" onClick="wishlist.add('42');" data-original-title="Add to Wish List"><i class="fa fa-heart"></i> <span>Add to Wish List</span></button>
+                        <button type="button" data-toggle="tooltip" title="" onClick="compare.add('42');" data-original-title="Compare this Product"><i class="fa fa-exchange"></i> <span>Compare this Product</span></button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+<script type="text/javascript">
+    function SepeteEkle(id_) {
+        $.ajax({
+            url: '/Cart/BuyJquery',
+            data: {
+                id: id_, quantity: 1
+            },
+            success: function (data) {
+                SepetBilgisi();
+                swal({
+                    title: "Seçtiğiniz ürün sepete eklenmiştir.",
+                    type: "success",
+                    timer: 1500,
+                    text: "",
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+    $("#UrunSayisi").html('@(Model.Count == 0 ? 0 : Model[0].UrunSayisi) sonuç bulundu.');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

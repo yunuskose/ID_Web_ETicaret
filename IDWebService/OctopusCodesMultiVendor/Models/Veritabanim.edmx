@@ -1,0 +1,2025 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OzerdemETicaretModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="250" />
+          <Property Name="Password" Type="varchar" MaxLength="250" />
+          <Property Name="FullName" Type="varchar" MaxLength="250" />
+          <Property Name="Address" Type="varchar" MaxLength="250" />
+          <Property Name="Email" Type="varchar" MaxLength="250" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Adresler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="AdresIsmi" Type="nvarchar(max)" />
+          <Property Name="Isim" Type="nvarchar(max)" />
+          <Property Name="CepTelefonu" Type="nvarchar(max)" />
+          <Property Name="Il" Type="nvarchar(max)" />
+          <Property Name="Ilce" Type="nvarchar(max)" />
+          <Property Name="Adres" Type="nvarchar(max)" />
+          <Property Name="TC" Type="nvarchar(max)" />
+          <Property Name="FaturaTuru" Type="nvarchar(max)" />
+          <Property Name="FirmaAdi" Type="nvarchar(max)" />
+          <Property Name="VergiDairesi" Type="nvarchar(max)" />
+          <Property Name="VergiNumarasi" Type="nvarchar(max)" />
+          <Property Name="KayitTarihi" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AspNet_SqlCacheTablesForChangeNotification">
+          <Key>
+            <PropertyRef Name="tableName" />
+          </Key>
+          <Property Name="tableName" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="notificationCreated" Type="datetime" Nullable="false" />
+          <Property Name="changeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bankalar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sirket" Type="nvarchar(max)" />
+          <Property Name="Banka" Type="nvarchar(max)" />
+          <Property Name="VergiNumarasi" Type="nvarchar(max)" />
+          <Property Name="TerminalID" Type="nvarchar(max)" />
+          <Property Name="MarchantID" Type="nvarchar(max)" />
+          <Property Name="TerminalUserID" Type="nvarchar(max)" />
+          <Property Name="BankName" Type="nvarchar(max)" />
+          <Property Name="ClientID" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="ProvisionPassword" Type="nvarchar(max)" />
+          <Property Name="PosUrl" Type="nvarchar(max)" />
+          <Property Name="okURL" Type="nvarchar(max)" />
+          <Property Name="failURL" Type="nvarchar(max)" />
+          <Property Name="receiveURL" Type="nvarchar(max)" />
+          <Property Name="Aktif" Type="bit" />
+        </EntityType>
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="VendorId" Type="int" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Aktarilacak" Type="bit" />
+          <Property Name="CDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="VendorId" Type="int" />
+        </EntityType>
+        <EntityType Name="HomeProducts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProdutID" Type="int" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Ilceler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Isim" Type="nvarchar" MaxLength="100" />
+          <Property Name="Kod" Type="int" />
+          <Property Name="SehirID" Type="int" />
+        </EntityType>
+        <EntityType Name="MemberShip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberShipVendor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemerShipId" Type="int" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="250" />
+          <Property Name="Body" Type="ntext" />
+          <Property Name="DateCreation" Type="date" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="DateCreation" Type="date" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="OrderStatusId" Type="int" Nullable="false" />
+          <Property Name="PaymentId" Type="int" />
+          <Property Name="Aktarildi" Type="bit" />
+          <Property Name="CDate" Type="datetime" />
+          <Property Name="Isim" Type="varchar" MaxLength="250" />
+          <Property Name="CepTelefonu" Type="varchar" MaxLength="250" />
+          <Property Name="Il" Type="varchar" MaxLength="250" />
+          <Property Name="Ilce" Type="varchar" MaxLength="250" />
+          <Property Name="Adres" Type="varchar" MaxLength="250" />
+          <Property Name="TC" Type="varchar" MaxLength="250" />
+          <Property Name="FaturaTuru" Type="varchar" MaxLength="250" />
+          <Property Name="FirmaAdi" Type="varchar" MaxLength="250" />
+          <Property Name="VergiDairesi" Type="varchar" MaxLength="250" />
+          <Property Name="VergiNumarasi" Type="varchar" MaxLength="250" />
+          <Property Name="OrderID" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="OrdersDetail">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Plug" Type="varchar" MaxLength="250" />
+          <Property Name="Title" Type="varchar" MaxLength="250" />
+          <Property Name="Detail" Type="ntext" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Main" Type="bit" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PosOdemeleri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tip" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="GonderilenTutar" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="txnamount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="xid" Type="nvarchar(max)" />
+          <Property Name="hostmsg" Type="nvarchar(max)" />
+          <Property Name="taksitAdet" Type="int" />
+          <Property Name="bankaAd" Type="nvarchar(max)" />
+          <Property Name="authcode" Type="nvarchar(max)" />
+          <Property Name="hostrefnum" Type="nvarchar(max)" />
+          <Property Name="rnd" Type="nvarchar(max)" />
+          <Property Name="procreturncode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="transid" Type="nvarchar(max)" />
+          <Property Name="mode" Type="nvarchar(max)" />
+          <Property Name="response" Type="nvarchar(max)" />
+          <Property Name="successurl" Type="nvarchar(max)" />
+          <Property Name="errmsg" Type="nvarchar(max)" />
+          <Property Name="md" Type="nvarchar(max)" />
+          <Property Name="oid" Type="nvarchar(max)" />
+          <Property Name="hash" Type="nvarchar(max)" />
+          <Property Name="txntimestamp" Type="nvarchar(max)" />
+          <Property Name="customeripaddress" Type="nvarchar(max)" />
+          <Property Name="terminalid" Type="nvarchar(max)" />
+          <Property Name="orderid" Type="nvarchar(max)" />
+          <Property Name="MaskedPan" Type="nvarchar(max)" />
+          <Property Name="Isim" Type="nvarchar(max)" />
+          <Property Name="secure3dhash" Type="nvarchar(max)" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+          <Property Name="KayitYapanKullanici" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="KayitTarihi" Type="datetime" />
+          <Property Name="DuzenlemeTarihi" Type="datetime" />
+          <Property Name="KontrolEdildi" Type="bit" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+          <Property Name="Aktarildi" Type="bit" />
+          <Property Name="SonucDegeri" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="250" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="OlcuBirimi" Type="nvarchar" MaxLength="10" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="Category2Id" Type="int" />
+          <Property Name="Category3Id" Type="int" />
+          <Property Name="Category4Id" Type="int" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="Views" Type="int" Nullable="false" />
+          <Property Name="Keywords" Type="nvarchar" MaxLength="250" />
+          <Property Name="CDate" Type="datetime" />
+          <Property Name="GercekStokKodu" Type="nvarchar" MaxLength="250" />
+          <Property Name="UrunSayisi" Type="int" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="Detail" Type="ntext" />
+          <Property Name="DatePost" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sehirler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Isim" Type="nvarchar" MaxLength="100" />
+          <Property Name="Kod" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Key" Type="varchar" MaxLength="250" />
+          <Property Name="Value" Type="ntext" />
+          <Property Name="Group" Type="varchar" MaxLength="250" />
+          <Property Name="TypeOfControl" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="250" />
+          <Property Name="Password" Type="varchar" MaxLength="250" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Address" Type="varchar" MaxLength="250" />
+          <Property Name="Email" Type="varchar" MaxLength="250" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Logo" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Adresler_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Adresler" Type="Self.Adresler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adresler">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Card" Type="Self.Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Card" Type="Self.Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Card" Type="Self.Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Category_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Category1" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Category_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Category" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HomeProducts_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="HomeProducts" Type="Self.HomeProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HomeProducts">
+              <PropertyRef Name="ProdutID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberShipVendor_MemberShip">
+          <End Role="MemberShip" Type="Self.MemberShip" Multiplicity="1" />
+          <End Role="MemberShipVendor" Type="Self.MemberShipVendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberShip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberShipVendor">
+              <PropertyRef Name="MemerShipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberShipVendor_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="MemberShipVendor" Type="Self.MemberShipVendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberShipVendor">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_OrderStatus">
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="OrderStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersDetail_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="OrdersDetail" Type="Self.OrdersDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdersDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="OrdersDetail" Type="Self.OrdersDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdersDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photo_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Photo" Type="Self.Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category1">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category2">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category3Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category3">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category4Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="p_StokAra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Ara" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Kategori1" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Kategori2" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Kategori3" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Kategori4" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Sayfa" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="OzerdemETicaretModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Adresler" EntityType="Self.Adresler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNet_SqlCacheTablesForChangeNotification" EntityType="Self.AspNet_SqlCacheTablesForChangeNotification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bankalar" EntityType="Self.Bankalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Card" EntityType="Self.Card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HomeProducts" EntityType="Self.HomeProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ilceler" EntityType="Self.Ilceler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberShip" EntityType="Self.MemberShip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberShipVendor" EntityType="Self.MemberShipVendor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrdersDetail" EntityType="Self.OrdersDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PosOdemeleri" EntityType="Self.PosOdemeleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sehirler" EntityType="Self.Sehirler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Setting" EntityType="Self.Setting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Adresler_Account" Association="Self.FK_Adresler_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Adresler" EntitySet="Adresler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Account" Association="Self.FK_Card_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Product" Association="Self.FK_Card_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Vendor" Association="Self.FK_Card_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Category_Category" Association="Self.FK_Category_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Category1" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Category_Vendor" Association="Self.FK_Category_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Category" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HomeProducts_Product" Association="Self.FK_HomeProducts_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="HomeProducts" EntitySet="HomeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberShipVendor_MemberShip" Association="Self.FK_MemberShipVendor_MemberShip">
+            <End Role="MemberShip" EntitySet="MemberShip" />
+            <End Role="MemberShipVendor" EntitySet="MemberShipVendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberShipVendor_Vendor" Association="Self.FK_MemberShipVendor_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="MemberShipVendor" EntitySet="MemberShipVendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Account" Association="Self.FK_Message_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Vendor" Association="Self.FK_Message_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Account" Association="Self.FK_Orders_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderStatus" Association="Self.FK_Orders_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Payment" Association="Self.FK_Orders_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Vendor" Association="Self.FK_Orders_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersDetail_Orders" Association="Self.FK_OrdersDetail_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrdersDetail" EntitySet="OrdersDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersDetail_Product" Association="Self.FK_OrdersDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrdersDetail" EntitySet="OrdersDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photo_Product" Association="Self.FK_Photo_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Photo" EntitySet="Photo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category1" Association="Self.FK_Product_Category1">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category2" Association="Self.FK_Product_Category2">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category3" Association="Self.FK_Product_Category3">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Vendor" Association="Self.FK_Product_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Account" Association="Self.FK_Review_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Vendor" Association="Self.FK_Review_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OzerdemETicaretModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ETicaretEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Account" EntityType="OzerdemETicaretModel.Account" />
+          <EntitySet Name="AspNet_SqlCacheTablesForChangeNotification" EntityType="OzerdemETicaretModel.AspNet_SqlCacheTablesForChangeNotification" />
+          <EntitySet Name="Category" EntityType="OzerdemETicaretModel.Category" />
+          <EntitySet Name="MemberShip" EntityType="OzerdemETicaretModel.MemberShip" />
+          <EntitySet Name="MemberShipVendor" EntityType="OzerdemETicaretModel.MemberShipVendor" />
+          <EntitySet Name="Message" EntityType="OzerdemETicaretModel.Message" />
+          <EntitySet Name="Orders" EntityType="OzerdemETicaretModel.Orders" />
+          <EntitySet Name="OrdersDetail" EntityType="OzerdemETicaretModel.OrdersDetail" />
+          <EntitySet Name="OrderStatus" EntityType="OzerdemETicaretModel.OrderStatus" />
+          <EntitySet Name="Page" EntityType="OzerdemETicaretModel.Page" />
+          <EntitySet Name="Payment" EntityType="OzerdemETicaretModel.Payment" />
+          <EntitySet Name="Photo" EntityType="OzerdemETicaretModel.Photo" />
+          <EntitySet Name="Product" EntityType="OzerdemETicaretModel.Product" />
+          <EntitySet Name="Review" EntityType="OzerdemETicaretModel.Review" />
+          <EntitySet Name="Setting" EntityType="OzerdemETicaretModel.Setting" />
+          <EntitySet Name="sysdiagrams" EntityType="OzerdemETicaretModel.sysdiagrams" />
+          <EntitySet Name="Vendor" EntityType="OzerdemETicaretModel.Vendor" />
+          <AssociationSet Name="FK_Message_Account" Association="OzerdemETicaretModel.FK_Message_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Account" Association="OzerdemETicaretModel.FK_Orders_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Account" Association="OzerdemETicaretModel.FK_Review_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Category_Category" Association="OzerdemETicaretModel.FK_Category_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Category1" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Category_Vendor" Association="OzerdemETicaretModel.FK_Category_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Category" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="OzerdemETicaretModel.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category1" Association="OzerdemETicaretModel.FK_Product_Category1">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category2" Association="OzerdemETicaretModel.FK_Product_Category2">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberShipVendor_MemberShip" Association="OzerdemETicaretModel.FK_MemberShipVendor_MemberShip">
+            <End Role="MemberShip" EntitySet="MemberShip" />
+            <End Role="MemberShipVendor" EntitySet="MemberShipVendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberShipVendor_Vendor" Association="OzerdemETicaretModel.FK_MemberShipVendor_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="MemberShipVendor" EntitySet="MemberShipVendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Vendor" Association="OzerdemETicaretModel.FK_Message_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderStatus" Association="OzerdemETicaretModel.FK_Orders_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Payment" Association="OzerdemETicaretModel.FK_Orders_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Vendor" Association="OzerdemETicaretModel.FK_Orders_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersDetail_Orders" Association="OzerdemETicaretModel.FK_OrdersDetail_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrdersDetail" EntitySet="OrdersDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersDetail_Product" Association="OzerdemETicaretModel.FK_OrdersDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrdersDetail" EntitySet="OrdersDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photo_Product" Association="OzerdemETicaretModel.FK_Photo_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Photo" EntitySet="Photo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Vendor" Association="OzerdemETicaretModel.FK_Product_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Vendor" Association="OzerdemETicaretModel.FK_Review_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <EntitySet Name="Card" EntityType="OzerdemETicaretModel.Card" />
+          <AssociationSet Name="FK_Card_MemberShip" Association="OzerdemETicaretModel.FK_Card_MemberShip">
+            <End Role="MemberShip" EntitySet="MemberShip" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Product" Association="OzerdemETicaretModel.FK_Card_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Vendor" Association="OzerdemETicaretModel.FK_Card_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Account" Association="OzerdemETicaretModel.FK_Card_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <FunctionImport Name="p_StokAra" ReturnType="Collection(OzerdemETicaretModel.p_StokAra_Result)">
+            <Parameter Name="Ara" Mode="In" Type="String" />
+            <Parameter Name="Kategori1" Mode="In" Type="String" />
+            <Parameter Name="Kategori2" Mode="In" Type="String" />
+            <Parameter Name="Kategori3" Mode="In" Type="String" />
+            <Parameter Name="Kategori4" Mode="In" Type="String" />
+            <Parameter Name="Sayfa" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="f_StokAra" EntitySet="Product" ReturnType="Collection(OzerdemETicaretModel.Product)">
+            <Parameter Name="Ara" Mode="In" Type="String" />
+            <Parameter Name="Kategori1" Mode="In" Type="String" />
+            <Parameter Name="Kategori2" Mode="In" Type="String" />
+            <Parameter Name="Kategori3" Mode="In" Type="String" />
+            <Parameter Name="Kategori4" Mode="In" Type="String" />
+            <Parameter Name="Sayfa" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <AssociationSet Name="FK_Product_Category3" Association="OzerdemETicaretModel.FK_Product_Category3">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <EntitySet Name="HomeProducts" EntityType="OzerdemETicaretModel.HomeProducts" />
+          <AssociationSet Name="FK_HomeProducts_Product" Association="OzerdemETicaretModel.FK_HomeProducts_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="HomeProducts" EntitySet="HomeProducts" />
+          </AssociationSet>
+          <EntitySet Name="Bankalar" EntityType="OzerdemETicaretModel.Bankalar" />
+          <EntitySet Name="Ilceler" EntityType="OzerdemETicaretModel.Ilceler" />
+          <EntitySet Name="PosOdemeleri" EntityType="OzerdemETicaretModel.PosOdemeleri" />
+          <EntitySet Name="Sehirler" EntityType="OzerdemETicaretModel.Sehirler" />
+          <EntitySet Name="Adresler" EntityType="OzerdemETicaretModel.Adresler" />
+          <AssociationSet Name="FK_Adresler_Account" Association="OzerdemETicaretModel.FK_Adresler_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Adresler" EntitySet="Adresler" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Message" Relationship="OzerdemETicaretModel.FK_Message_Account" FromRole="Account" ToRole="Message" />
+          <NavigationProperty Name="Orders" Relationship="OzerdemETicaretModel.FK_Orders_Account" FromRole="Account" ToRole="Orders" />
+          <NavigationProperty Name="Review" Relationship="OzerdemETicaretModel.FK_Review_Account" FromRole="Account" ToRole="Review" />
+          <NavigationProperty Name="Card" Relationship="OzerdemETicaretModel.FK_Card_Account" FromRole="Account" ToRole="Card" />
+          <NavigationProperty Name="Adresler" Relationship="OzerdemETicaretModel.FK_Adresler_Account" FromRole="Account" ToRole="Adresler" />
+        </EntityType>
+        <EntityType Name="AspNet_SqlCacheTablesForChangeNotification">
+          <Key>
+            <PropertyRef Name="tableName" />
+          </Key>
+          <Property Name="tableName" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="notificationCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="changeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="VendorId" Type="Int32" />
+          <NavigationProperty Name="Category1" Relationship="OzerdemETicaretModel.FK_Category_Category" FromRole="Category" ToRole="Category1" />
+          <NavigationProperty Name="Category2" Relationship="OzerdemETicaretModel.FK_Category_Category" FromRole="Category1" ToRole="Category" />
+          <NavigationProperty Name="Vendor" Relationship="OzerdemETicaretModel.FK_Category_Vendor" FromRole="Category" ToRole="Vendor" />
+          <NavigationProperty Name="Product" Relationship="OzerdemETicaretModel.FK_Product_Category" FromRole="Category" ToRole="Product" />
+          <NavigationProperty Name="Product1" Relationship="OzerdemETicaretModel.FK_Product_Category1" FromRole="Category" ToRole="Product" />
+          <NavigationProperty Name="Product2" Relationship="OzerdemETicaretModel.FK_Product_Category2" FromRole="Category" ToRole="Product" />
+          <NavigationProperty Name="Product3" Relationship="OzerdemETicaretModel.FK_Product_Category3" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="MemberShip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MemberShipVendor" Relationship="OzerdemETicaretModel.FK_MemberShipVendor_MemberShip" FromRole="MemberShip" ToRole="MemberShipVendor" />
+          <NavigationProperty Name="Card" Relationship="OzerdemETicaretModel.FK_Card_MemberShip" FromRole="MemberShip" ToRole="Card" />
+        </EntityType>
+        <EntityType Name="MemberShipVendor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemerShipId" Type="Int32" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="MemberShip" Relationship="OzerdemETicaretModel.FK_MemberShipVendor_MemberShip" FromRole="MemberShipVendor" ToRole="MemberShip" />
+          <NavigationProperty Name="Vendor" Relationship="OzerdemETicaretModel.FK_MemberShipVendor_Vendor" FromRole="MemberShipVendor" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="OzerdemETicaretModel.FK_Message_Account" FromRole="Message" ToRole="Account" />
+          <NavigationProperty Name="Vendor" Relationship="OzerdemETicaretModel.FK_Message_Vendor" FromRole="Message" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreation" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="OrderStatusId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentId" Type="Int32" />
+          <NavigationProperty Name="Account" Relationship="OzerdemETicaretModel.FK_Orders_Account" FromRole="Orders" ToRole="Account" />
+          <NavigationProperty Name="OrderStatus" Relationship="OzerdemETicaretModel.FK_Orders_OrderStatus" FromRole="Orders" ToRole="OrderStatus" />
+          <NavigationProperty Name="Payment" Relationship="OzerdemETicaretModel.FK_Orders_Payment" FromRole="Orders" ToRole="Payment" />
+          <NavigationProperty Name="Vendor" Relationship="OzerdemETicaretModel.FK_Orders_Vendor" FromRole="Orders" ToRole="Vendor" />
+          <NavigationProperty Name="OrdersDetail" Relationship="OzerdemETicaretModel.FK_OrdersDetail_Orders" FromRole="Orders" ToRole="OrdersDetail" />
+          <Property Name="Aktarildi" Type="Boolean" />
+          <Property Name="CDate" Type="DateTime" Precision="3" />
+          <Property Name="Isim" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CepTelefonu" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Il" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Ilce" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Adres" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TC" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FaturaTuru" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FirmaAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="VergiDairesi" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="VergiNumarasi" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="OrderID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OrdersDetail">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="OzerdemETicaretModel.FK_OrdersDetail_Orders" FromRole="OrdersDetail" ToRole="Orders" />
+          <NavigationProperty Name="Product" Relationship="OzerdemETicaretModel.FK_OrdersDetail_Product" FromRole="OrdersDetail" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="OrderStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="OzerdemETicaretModel.FK_Orders_OrderStatus" FromRole="OrderStatus" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Plug" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="OzerdemETicaretModel.FK_Orders_Payment" FromRole="Payment" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Main" Type="Boolean" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="OzerdemETicaretModel.FK_Photo_Product" FromRole="Photo" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Category2Id" Type="Int32" />
+          <Property Name="Category3Id" Type="Int32" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="Views" Type="Int32" Nullable="false" />
+          <Property Name="Keywords" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="OzerdemETicaretModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Category1" Relationship="OzerdemETicaretModel.FK_Product_Category1" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Category2" Relationship="OzerdemETicaretModel.FK_Product_Category2" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="OrdersDetail" Relationship="OzerdemETicaretModel.FK_OrdersDetail_Product" FromRole="Product" ToRole="OrdersDetail" />
+          <NavigationProperty Name="Photo" Relationship="OzerdemETicaretModel.FK_Photo_Product" FromRole="Product" ToRole="Photo" />
+          <NavigationProperty Name="Vendor" Relationship="OzerdemETicaretModel.FK_Product_Vendor" FromRole="Product" ToRole="Vendor" />
+          <NavigationProperty Name="Card" Relationship="OzerdemETicaretModel.FK_Card_Product" FromRole="Product" ToRole="Card" />
+          <Property Name="CDate" Type="DateTime" Precision="3" />
+          <Property Name="GercekStokKodu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Category4Id" Type="Int32" />
+          <NavigationProperty Name="Category3" Relationship="OzerdemETicaretModel.FK_Product_Category3" FromRole="Product" ToRole="Category" />
+          <Property Name="UrunSayisi" Type="Int32" />
+          <NavigationProperty Name="HomeProducts" Relationship="OzerdemETicaretModel.FK_HomeProducts_Product" FromRole="Product" ToRole="HomeProducts" />
+          <Property Name="OlcuBirimi" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DatePost" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Account" Relationship="OzerdemETicaretModel.FK_Review_Account" FromRole="Review" ToRole="Account" />
+          <NavigationProperty Name="Vendor" Relationship="OzerdemETicaretModel.FK_Review_Vendor" FromRole="Review" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Key" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Group" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TypeOfControl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Logo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="OzerdemETicaretModel.FK_Category_Vendor" FromRole="Vendor" ToRole="Category" />
+          <NavigationProperty Name="MemberShipVendor" Relationship="OzerdemETicaretModel.FK_MemberShipVendor_Vendor" FromRole="Vendor" ToRole="MemberShipVendor" />
+          <NavigationProperty Name="Message" Relationship="OzerdemETicaretModel.FK_Message_Vendor" FromRole="Vendor" ToRole="Message" />
+          <NavigationProperty Name="Orders" Relationship="OzerdemETicaretModel.FK_Orders_Vendor" FromRole="Vendor" ToRole="Orders" />
+          <NavigationProperty Name="Product" Relationship="OzerdemETicaretModel.FK_Product_Vendor" FromRole="Vendor" ToRole="Product" />
+          <NavigationProperty Name="Review" Relationship="OzerdemETicaretModel.FK_Review_Vendor" FromRole="Vendor" ToRole="Review" />
+          <NavigationProperty Name="Card" Relationship="OzerdemETicaretModel.FK_Card_Vendor" FromRole="Vendor" ToRole="Card" />
+        </EntityType>
+        <Association Name="FK_Message_Account">
+          <End Type="OzerdemETicaretModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Account">
+          <End Type="OzerdemETicaretModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Account">
+          <End Type="OzerdemETicaretModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Category_Category">
+          <End Type="OzerdemETicaretModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Category" Role="Category1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Category_Vendor">
+          <End Type="OzerdemETicaretModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Category" Role="Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category">
+          <End Type="OzerdemETicaretModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category1">
+          <End Type="OzerdemETicaretModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category2">
+          <End Type="OzerdemETicaretModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category3Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberShipVendor_MemberShip">
+          <End Type="OzerdemETicaretModel.MemberShip" Role="MemberShip" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.MemberShipVendor" Role="MemberShipVendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberShip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberShipVendor">
+              <PropertyRef Name="MemerShipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberShipVendor_Vendor">
+          <End Type="OzerdemETicaretModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.MemberShipVendor" Role="MemberShipVendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberShipVendor">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Vendor">
+          <End Type="OzerdemETicaretModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_OrderStatus">
+          <End Type="OzerdemETicaretModel.OrderStatus" Role="OrderStatus" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="OrderStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Payment">
+          <End Type="OzerdemETicaretModel.Payment" Role="Payment" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Vendor">
+          <End Type="OzerdemETicaretModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersDetail_Orders">
+          <End Type="OzerdemETicaretModel.Orders" Role="Orders" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.OrdersDetail" Role="OrdersDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdersDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersDetail_Product">
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.OrdersDetail" Role="OrdersDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdersDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photo_Product">
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Photo" Role="Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Vendor">
+          <End Type="OzerdemETicaretModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Vendor">
+          <End Type="OzerdemETicaretModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="OzerdemETicaretModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="VendorId" Type="Int32" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="MemberShip" Relationship="OzerdemETicaretModel.FK_Card_MemberShip" FromRole="Card" ToRole="MemberShip" />
+          <NavigationProperty Name="Product" Relationship="OzerdemETicaretModel.FK_Card_Product" FromRole="Card" ToRole="Product" />
+          <NavigationProperty Name="Vendor" Relationship="OzerdemETicaretModel.FK_Card_Vendor" FromRole="Card" ToRole="Vendor" />
+          <NavigationProperty Name="Account" Relationship="OzerdemETicaretModel.FK_Card_Account" FromRole="Card" ToRole="Account" />
+          <Property Name="Aktarilacak" Type="Boolean" />
+          <Property Name="CDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Card_MemberShip">
+          <End Type="OzerdemETicaretModel.MemberShip" Role="MemberShip" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Card" Role="Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberShip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Product">
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Card" Role="Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Vendor">
+          <End Type="OzerdemETicaretModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Card" Role="Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Account">
+          <End Type="OzerdemETicaretModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Card" Role="Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="p_StokAra_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="Max" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="Int32" Name="Category2Id" Nullable="true" />
+          <Property Type="Int32" Name="Category3Id" Nullable="true" />
+          <Property Type="Int32" Name="VendorId" Nullable="false" />
+          <Property Type="Int32" Name="Views" Nullable="false" />
+          <Property Type="String" Name="Keywords" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="CDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GercekStokKodu" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="UrunSayisi" Nullable="true" />
+          <Property Type="Int32" Name="Category4Id" Nullable="true" />
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <Association Name="FK_Product_Category3">
+          <End Type="OzerdemETicaretModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category4Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HomeProducts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProdutID" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="OzerdemETicaretModel.FK_HomeProducts_Product" FromRole="HomeProducts" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_HomeProducts_Product">
+          <End Type="OzerdemETicaretModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.HomeProducts" Role="HomeProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HomeProducts">
+              <PropertyRef Name="ProdutID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Bankalar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sirket" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Banka" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VergiNumarasi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TerminalID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MarchantID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TerminalUserID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BankName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProvisionPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PosUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="okURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="failURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="receiveURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Aktif" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Ilceler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Isim" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Kod" Type="Int32" />
+          <Property Name="SehirID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PosOdemeleri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="GonderilenTutar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="txnamount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="xid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hostmsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="taksitAdet" Type="Int32" />
+          <Property Name="bankaAd" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="authcode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hostrefnum" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rnd" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="procreturncode" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="transid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="mode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="response" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="successurl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="errmsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="md" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="oid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="txntimestamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="customeripaddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="terminalid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="orderid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaskedPan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Isim" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="secure3dhash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KayitYapanKullanici" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KayitTarihi" Type="DateTime" Precision="3" />
+          <Property Name="DuzenlemeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="KontrolEdildi" Type="Boolean" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Aktarildi" Type="Boolean" />
+          <Property Name="SonucDegeri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Sehirler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Isim" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Kod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Adresler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="AdresIsmi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Isim" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CepTelefonu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Il" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ilce" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Adres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TC" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FaturaTuru" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirmaAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VergiDairesi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VergiNumarasi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KayitTarihi" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="OzerdemETicaretModel.FK_Adresler_Account" FromRole="Adresler" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK_Adresler_Account">
+          <End Type="OzerdemETicaretModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="OzerdemETicaretModel.Adresler" Role="Adresler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adresler">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OzerdemETicaretModelStoreContainer" CdmEntityContainer="ETicaretEntities">
+          <EntitySetMapping Name="Account">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNet_SqlCacheTablesForChangeNotification">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.AspNet_SqlCacheTablesForChangeNotification">
+              <MappingFragment StoreEntitySet="AspNet_SqlCacheTablesForChangeNotification">
+                <ScalarProperty Name="changeId" ColumnName="changeId" />
+                <ScalarProperty Name="notificationCreated" ColumnName="notificationCreated" />
+                <ScalarProperty Name="tableName" ColumnName="tableName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberShip">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.MemberShip">
+              <MappingFragment StoreEntitySet="MemberShip">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberShipVendor">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.MemberShipVendor">
+              <MappingFragment StoreEntitySet="MemberShipVendor">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="MemerShipId" ColumnName="MemerShipId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="VergiNumarasi" ColumnName="VergiNumarasi" />
+                <ScalarProperty Name="VergiDairesi" ColumnName="VergiDairesi" />
+                <ScalarProperty Name="FirmaAdi" ColumnName="FirmaAdi" />
+                <ScalarProperty Name="FaturaTuru" ColumnName="FaturaTuru" />
+                <ScalarProperty Name="TC" ColumnName="TC" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Ilce" ColumnName="Ilce" />
+                <ScalarProperty Name="Il" ColumnName="Il" />
+                <ScalarProperty Name="CepTelefonu" ColumnName="CepTelefonu" />
+                <ScalarProperty Name="Isim" ColumnName="Isim" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="Aktarildi" ColumnName="Aktarildi" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdersDetail">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.OrdersDetail">
+              <MappingFragment StoreEntitySet="OrdersDetail">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatus">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.OrderStatus">
+              <MappingFragment StoreEntitySet="OrderStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Page">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Page">
+              <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Plug" ColumnName="Plug" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payment">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photo">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Photo">
+              <MappingFragment StoreEntitySet="Photo">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Main" ColumnName="Main" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="OlcuBirimi" ColumnName="OlcuBirimi" />
+                <ScalarProperty Name="UrunSayisi" ColumnName="UrunSayisi" />
+                <ScalarProperty Name="Category4Id" ColumnName="Category4Id" />
+                <ScalarProperty Name="GercekStokKodu" ColumnName="GercekStokKodu" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="Views" ColumnName="Views" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="Category3Id" ColumnName="Category3Id" />
+                <ScalarProperty Name="Category2Id" ColumnName="Category2Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Review">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="DatePost" ColumnName="DatePost" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Setting">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Setting">
+              <MappingFragment StoreEntitySet="Setting">
+                <ScalarProperty Name="TypeOfControl" ColumnName="TypeOfControl" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendor">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Card">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Card">
+              <MappingFragment StoreEntitySet="Card">
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="Aktarilacak" ColumnName="Aktarilacak" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="p_StokAra" FunctionName="OzerdemETicaretModel.Store.p_StokAra">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OzerdemETicaretModel.p_StokAra_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Category2Id" ColumnName="Category2Id" />
+                <ScalarProperty Name="Category3Id" ColumnName="Category3Id" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="Views" ColumnName="Views" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="GercekStokKodu" ColumnName="GercekStokKodu" />
+                <ScalarProperty Name="UrunSayisi" ColumnName="UrunSayisi" />
+                <ScalarProperty Name="Category4Id" ColumnName="Category4Id" />
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="f_StokAra" FunctionName="OzerdemETicaretModel.Store.p_StokAra" />
+          <EntitySetMapping Name="HomeProducts">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.HomeProducts">
+              <MappingFragment StoreEntitySet="HomeProducts">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ProdutID" ColumnName="ProdutID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bankalar">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Bankalar">
+              <MappingFragment StoreEntitySet="Bankalar">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="receiveURL" ColumnName="receiveURL" />
+                <ScalarProperty Name="failURL" ColumnName="failURL" />
+                <ScalarProperty Name="okURL" ColumnName="okURL" />
+                <ScalarProperty Name="PosUrl" ColumnName="PosUrl" />
+                <ScalarProperty Name="ProvisionPassword" ColumnName="ProvisionPassword" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="TerminalUserID" ColumnName="TerminalUserID" />
+                <ScalarProperty Name="MarchantID" ColumnName="MarchantID" />
+                <ScalarProperty Name="TerminalID" ColumnName="TerminalID" />
+                <ScalarProperty Name="VergiNumarasi" ColumnName="VergiNumarasi" />
+                <ScalarProperty Name="Banka" ColumnName="Banka" />
+                <ScalarProperty Name="Sirket" ColumnName="Sirket" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ilceler">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Ilceler">
+              <MappingFragment StoreEntitySet="Ilceler">
+                <ScalarProperty Name="SehirID" ColumnName="SehirID" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Isim" ColumnName="Isim" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PosOdemeleri">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.PosOdemeleri">
+              <MappingFragment StoreEntitySet="PosOdemeleri">
+                <ScalarProperty Name="SonucDegeri" ColumnName="SonucDegeri" />
+                <ScalarProperty Name="Aktarildi" ColumnName="Aktarildi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="KontrolEdildi" ColumnName="KontrolEdildi" />
+                <ScalarProperty Name="DuzenlemeTarihi" ColumnName="DuzenlemeTarihi" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="KayitYapanKullanici" ColumnName="KayitYapanKullanici" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="secure3dhash" ColumnName="secure3dhash" />
+                <ScalarProperty Name="Isim" ColumnName="Isim" />
+                <ScalarProperty Name="MaskedPan" ColumnName="MaskedPan" />
+                <ScalarProperty Name="orderid" ColumnName="orderid" />
+                <ScalarProperty Name="terminalid" ColumnName="terminalid" />
+                <ScalarProperty Name="customeripaddress" ColumnName="customeripaddress" />
+                <ScalarProperty Name="txntimestamp" ColumnName="txntimestamp" />
+                <ScalarProperty Name="hash" ColumnName="hash" />
+                <ScalarProperty Name="oid" ColumnName="oid" />
+                <ScalarProperty Name="md" ColumnName="md" />
+                <ScalarProperty Name="errmsg" ColumnName="errmsg" />
+                <ScalarProperty Name="successurl" ColumnName="successurl" />
+                <ScalarProperty Name="response" ColumnName="response" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="transid" ColumnName="transid" />
+                <ScalarProperty Name="procreturncode" ColumnName="procreturncode" />
+                <ScalarProperty Name="rnd" ColumnName="rnd" />
+                <ScalarProperty Name="hostrefnum" ColumnName="hostrefnum" />
+                <ScalarProperty Name="authcode" ColumnName="authcode" />
+                <ScalarProperty Name="bankaAd" ColumnName="bankaAd" />
+                <ScalarProperty Name="taksitAdet" ColumnName="taksitAdet" />
+                <ScalarProperty Name="hostmsg" ColumnName="hostmsg" />
+                <ScalarProperty Name="xid" ColumnName="xid" />
+                <ScalarProperty Name="txnamount" ColumnName="txnamount" />
+                <ScalarProperty Name="GonderilenTutar" ColumnName="GonderilenTutar" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Tip" ColumnName="Tip" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sehirler">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Sehirler">
+              <MappingFragment StoreEntitySet="Sehirler">
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Isim" ColumnName="Isim" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Adresler">
+            <EntityTypeMapping TypeName="OzerdemETicaretModel.Adresler">
+              <MappingFragment StoreEntitySet="Adresler">
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="VergiNumarasi" ColumnName="VergiNumarasi" />
+                <ScalarProperty Name="VergiDairesi" ColumnName="VergiDairesi" />
+                <ScalarProperty Name="FirmaAdi" ColumnName="FirmaAdi" />
+                <ScalarProperty Name="FaturaTuru" ColumnName="FaturaTuru" />
+                <ScalarProperty Name="TC" ColumnName="TC" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Ilce" ColumnName="Ilce" />
+                <ScalarProperty Name="Il" ColumnName="Il" />
+                <ScalarProperty Name="CepTelefonu" ColumnName="CepTelefonu" />
+                <ScalarProperty Name="Isim" ColumnName="Isim" />
+                <ScalarProperty Name="AdresIsmi" ColumnName="AdresIsmi" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

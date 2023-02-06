@@ -1,0 +1,13 @@
+﻿@model int
+@using IDETicaret.Models;
+@{
+
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    ETicaretEntities ocmde = new ETicaretEntities();
+
+    int id = Convert.ToInt32(ViewBag.Form);
+    BankaXml xml = ocmde.BankaXml.Where((x) => x.ID == Model).FirstOrDefault();
+}
+
+
+    @Html.Raw(xml.form)

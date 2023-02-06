@@ -1,0 +1,26 @@
+﻿@model List<IDETicaret.Models.Setting>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div id="content" class="col-sm-12">
+
+
+    <h3> BLOG </h3>
+    @foreach (IDETicaret.Models.Setting item in Model)
+    {
+        <hr />
+        <div>
+            <div ><h3><a href="@Url.Action("BlogDetay","Home",new { id = item.Id, name=IDETicaret.Models.SeoFriendlyLink.FriendlyURLTitle(item.Key) })">@Html.Raw(item.Key)</a></h3></div>
+            <div>@Html.Raw(item.Value.Substring(0,1000))...
+                <a href="@Url.Action("BlogDetay","Home",new { id = item.Id, name=IDETicaret.Models.SeoFriendlyLink.FriendlyURLTitle(item.Key) })">Devamını Oku</a>
+            </div>
+            <div>@item.CDate</div>
+        </div>
+
+    }
+
+
+
+
+</div>
